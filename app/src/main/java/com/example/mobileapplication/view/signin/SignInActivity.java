@@ -50,9 +50,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         signUpButton = findViewById(R.id.signUpButton);
 
         editPassword = findViewById(R.id.editPassword);
-        editUserName = findViewById(R.id.editUsername);
-        goButton.setOnClickListener(this);
+        editUserName = findViewById(R.id.editEmail);
 
+        goButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
 
     }
@@ -89,7 +89,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         } else if (viewId == R.id.signUpButton) {
             openSignUpPage();
         }
-
     }
 
     private void loginValidation() {
@@ -100,6 +99,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 SystemUtils.hideKeyBoard(this);
                 password.setErrorEnabled(false);
                 Toast.makeText(this, "Hit your login API", Toast.LENGTH_SHORT).show();
+
             } else {
 
                 password.setError("Please enter your password");
@@ -107,7 +107,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         } else {
 
             username.setError("Please enter your username");
-
 
         }
     }

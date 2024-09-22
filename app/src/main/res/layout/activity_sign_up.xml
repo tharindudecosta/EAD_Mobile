@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:id="@+id/editUsername"/>
+            android:id="@+id/editEmail"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

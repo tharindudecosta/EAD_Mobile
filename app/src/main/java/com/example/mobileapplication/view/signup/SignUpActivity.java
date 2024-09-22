@@ -1,14 +1,19 @@
 package com.example.mobileapplication.view.signup;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobileapplication.R;
+import com.example.mobileapplication.utils.AlertBoxUtil;
 import com.example.mobileapplication.utils.SystemUtils;
 import com.example.mobileapplication.utils.Utils;
+import com.example.mobileapplication.view.signin.SignInActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -19,8 +24,11 @@ import com.google.android.material.textfield.TextInputLayout;
  *
  * */
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextInputEditText editUserName, editPassword, editFullName, editPhoneNumber, editEmail;
-    private TextInputLayout username, password, fullName, phoneNumber, emailId;
+    private TextInputEditText editEmail, editPassword, editFullName, editPhoneNumber;
+    private TextInputLayout email, password, fullName, phoneNumber;
+
+    private Dialog dialog;
+    private Button okButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +40,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private void initView() {
 
         editFullName = findViewById(R.id.editFullname);
-        editUserName = findViewById(R.id.editUsername);
+        editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         editPhoneNumber = findViewById(R.id.editPhoneNumber);
-//        editEmail = findViewById(R.id.editEmailId);
-        username = findViewById(R.id.email);
+
+        email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         fullName = findViewById(R.id.fullName);
         phoneNumber = findViewById(R.id.phoneNumber);
-        emailId = findViewById(R.id.email);
 
         findViewById(R.id.alreadyHaveAccount).setOnClickListener(this);
         findViewById(R.id.signUpButton).setOnClickListener(this);
@@ -55,18 +62,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             fullName.setErrorEnabled(false);
         }
-        if (!Utils.inputValidation(editUserName)) {
-            username.setError("Please enter your username");
+        if (!Utils.inputValidation(editEmail)) {
+            email.setError("Please enter your username");
             return;
         } else {
-            username.setErrorEnabled(false);
+            email.setErrorEnabled(false);
         }
-//        if (!Utils.inputValidation(editEmail)) {
-//            emailId.setError("Please enter your email id");
-//            return;
-//        } else {
-//            emailId.setErrorEnabled(false);
-//        }
         if (!Utils.inputValidation(editPhoneNumber)) {
             phoneNumber.setError("Please enter your phone no");
             return;
@@ -78,11 +79,31 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return;
         } else {
             password.setErrorEnabled(false);
-
         }
 
         Toast.makeText(this, "Continue for Sign up", Toast.LENGTH_SHORT).show();
+        successAlertBox();
 
+    }
+
+    private void successAlertBox() {
+//        dialog = new Dialog(SignUpActivity.this);
+//        dialog.setContentView(R.layout.success_alert);
+//        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+//        dialog.setCancelable(false);
+//
+//        okButton = dialog.findViewById(R.id.okButton);
+//
+//        okButton.setOnClickListener(this);
+//        dialog.show();
+
+        AlertBoxUtil.showSuccessAlertBox(this, "Sign up successful", new AlertBoxUtil.DialogCallback() {
+            @Override
+            public void onOkClick() {
+                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -92,7 +113,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if (viewId == R.id.signUpButton) {
             inputValidation();
         } else if (viewId == R.id.alreadyHaveAccount) {
-//            onBackPressed();
             getOnBackPressedDispatcher().onBackPressed();
         }
 
