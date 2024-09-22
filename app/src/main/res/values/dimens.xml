@@ -9,4 +9,7 @@
     <dimen name="app_logo_height">140dp</dimen>
     <dimen name="app_logo_width">140dp</dimen>
 
+    <dimen name="green_check_logo_height">350dp</dimen>
+    <dimen name="green_check_logo_width">350dp</dimen>
+
 </resources>
