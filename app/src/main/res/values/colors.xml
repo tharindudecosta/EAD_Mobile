@@ -6,4 +6,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="testHomeColor">#A61BD8</color>
+    <color name="testOrdersColor">#1B28D8</color>
+    <color name="testShoppingColor">#1BD89F</color>
+    <color name="testProfileColor">#D83E1B</color>
+
+
 </resources>

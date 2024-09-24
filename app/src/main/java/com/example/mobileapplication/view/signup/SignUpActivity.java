@@ -56,30 +56,30 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private void inputValidation() {
         SystemUtils.hideKeyBoard(this);
 
-        if (!Utils.inputValidation(editFullName)) {
-            fullName.setError("Please enter your Fullname");
-            return;
-        } else {
-            fullName.setErrorEnabled(false);
-        }
-        if (!Utils.inputValidation(editEmail)) {
-            email.setError("Please enter your username");
-            return;
-        } else {
-            email.setErrorEnabled(false);
-        }
-        if (!Utils.inputValidation(editPhoneNumber)) {
-            phoneNumber.setError("Please enter your phone no");
-            return;
-        } else {
-            phoneNumber.setErrorEnabled(false);
-        }
-        if (!Utils.inputValidation(editPassword)) {
-            password.setError("Please enter your password");
-            return;
-        } else {
-            password.setErrorEnabled(false);
-        }
+//        if (!Utils.inputValidation(editFullName)) {
+//            fullName.setError("Please enter your Fullname");
+//            return;
+//        } else {
+//            fullName.setErrorEnabled(false);
+//        }
+//        if (!Utils.inputValidation(editEmail)) {
+//            email.setError("Please enter your username");
+//            return;
+//        } else {
+//            email.setErrorEnabled(false);
+//        }
+//        if (!Utils.inputValidation(editPhoneNumber)) {
+//            phoneNumber.setError("Please enter your phone no");
+//            return;
+//        } else {
+//            phoneNumber.setErrorEnabled(false);
+//        }
+//        if (!Utils.inputValidation(editPassword)) {
+//            password.setError("Please enter your password");
+//            return;
+//        } else {
+//            password.setErrorEnabled(false);
+//        }
 
         Toast.makeText(this, "Continue for Sign up", Toast.LENGTH_SHORT).show();
         successAlertBox();
