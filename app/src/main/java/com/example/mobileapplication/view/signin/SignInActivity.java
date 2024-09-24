@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.utils.SystemUtils;
 import com.example.mobileapplication.utils.Utils;
+import com.example.mobileapplication.view.main.MainActivity;
 import com.example.mobileapplication.view.signup.SignUpActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -92,23 +93,29 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void loginValidation() {
-        if (Utils.inputValidation(editUserName)) {
-            username.setErrorEnabled(false);
+//        if (Utils.inputValidation(editUserName)) {
+//            username.setErrorEnabled(false);
+//
+//            if (Utils.inputValidation(editPassword)) {
+//                SystemUtils.hideKeyBoard(this);
+//                password.setErrorEnabled(false);
+//                Toast.makeText(this, "Hit your login API", Toast.LENGTH_SHORT).show();
+//
+//                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+//                startActivity(intent);
+//
+//            } else {
+//
+//                password.setError("Please enter your password");
+//            }
+//        } else {
+//
+//            username.setError("Please enter your username");
+//
+//        }
 
-            if (Utils.inputValidation(editPassword)) {
-                SystemUtils.hideKeyBoard(this);
-                password.setErrorEnabled(false);
-                Toast.makeText(this, "Hit your login API", Toast.LENGTH_SHORT).show();
-
-            } else {
-
-                password.setError("Please enter your password");
-            }
-        } else {
-
-            username.setError("Please enter your username");
-
-        }
+        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
 }

@@ -9,15 +9,18 @@ import com.example.mobileapplication.R;
 
 import java.util.Objects;
 
+/*
+* https://www.youtube.com/watch?v=3RTpdB-RszY
+* */
 public class AlertBoxUtil {
 
     public static void showSuccessAlertBox(Context context, String message, DialogCallback callback) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.success_alert);
-        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
 
-        Button okButton = dialog.findViewById(R.id.tryAgainButton);
+        Button okButton = dialog.findViewById(R.id.okButton);
 
         okButton.setOnClickListener(v -> {
             dialog.dismiss();
@@ -32,7 +35,7 @@ public class AlertBoxUtil {
     public static void showFailureAlertBox(Context context, String message, DialogCallback callback) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.failure_alert);
-        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
 
         Button okButton = dialog.findViewById(R.id.tryAgainButton);
