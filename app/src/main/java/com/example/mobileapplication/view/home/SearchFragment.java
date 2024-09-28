@@ -39,7 +39,7 @@ public class SearchFragment extends Fragment {
         searchView = view.findViewById(R.id.searchView);
 
         searchPageTopicTv = view.findViewById(R.id.searchPageTopicTv);
-//        searchPageTopicTv.setVisibility(View.VISIBLE);
+        searchPageTopicTv.setVisibility(View.VISIBLE);
 //        recyclerView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
 
 
@@ -54,12 +54,12 @@ public class SearchFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     recyclerView.setVisibility(View.VISIBLE);
-//                    searchPageTopicTv.setVisibility(View.GONE);
+                    searchPageTopicTv.setVisibility(View.GONE);
                 }
                 else {
                     // Hide RecyclerView when SearchView loses focus
                     recyclerView.setVisibility(View.GONE);
-//                    searchPageTopicTv.setVisibility(View.VISIBLE);
+                    searchPageTopicTv.setVisibility(View.VISIBLE);
                 }
             }
         });

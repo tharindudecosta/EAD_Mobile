@@ -6,10 +6,15 @@
     <dimen name="login_btn_padding_horizontal">35dp</dimen>
     <dimen name="login_btn_padding_vertical">15dp</dimen>
     <dimen name="login_btn_text_size">17sp</dimen>
+
     <dimen name="app_logo_height">140dp</dimen>
     <dimen name="app_logo_width">140dp</dimen>
+    <dimen name="app_logo_height_splash">240dp</dimen>
+    <dimen name="app_logo_width_splash">240dp</dimen>
 
     <dimen name="green_check_logo_height">150dp</dimen>
     <dimen name="green_check_logo_width">150dp</dimen>
+    <dimen name="green_check_logo_order_height">300dp</dimen>
+    <dimen name="green_check_logo_order_width">350dp</dimen>
 
 </resources>

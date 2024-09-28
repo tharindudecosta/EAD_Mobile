@@ -16,7 +16,7 @@ public class AlertBoxUtil {
 
     public static void showSuccessAlertBox(Context context, String message, DialogCallback callback) {
         Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.success_alert);
+        dialog.setContentView(R.layout.alert_success);
         Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
 
@@ -34,7 +34,7 @@ public class AlertBoxUtil {
 
     public static void showFailureAlertBox(Context context, String message, DialogCallback callback) {
         Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.failure_alert);
+        dialog.setContentView(R.layout.alert_failure);
         Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
 
