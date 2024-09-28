@@ -30,12 +30,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.textView.setText(filteredList.get(position));
+
     }
 
     @Override
     public int getItemCount() {
         return filteredList.size();
     }
+
+    public void showRecycleView(@NonNull MyViewHolder holder){
+        holder.itemView.setVisibility(View.VISIBLE);
+        holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    }
+
+    public void hideRecycleView(@NonNull MyViewHolder holder){
+        holder.itemView.setVisibility(View.GONE);
+        holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));    }
 
     // Filter method for SearchView
     public void filter(String query) {
