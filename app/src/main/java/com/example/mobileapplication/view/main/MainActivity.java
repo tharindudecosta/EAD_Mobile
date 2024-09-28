@@ -17,6 +17,7 @@ import com.example.mobileapplication.databinding.ActivityMainBinding;
 import com.example.mobileapplication.view.home.HomeFragment;
 import com.example.mobileapplication.view.home.OrdersFragment;
 import com.example.mobileapplication.view.home.ProfileFragment;
+import com.example.mobileapplication.view.home.SearchFragment;
 import com.example.mobileapplication.view.home.ShoppingCartFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new ShoppingCartFragment());
             } else if (itemId == R.id.navBarPersonId) {
                 replaceFragment(new ProfileFragment());
+            } else if (itemId == R.id.navBarSearch){
+                replaceFragment(new SearchFragment());
             }
 
 

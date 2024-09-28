@@ -29,6 +29,8 @@
     <string name="nav_bar_profile">Profile</string>
 
 
+    <string name="search_page_topic">What are you looking for ?</string>
+
     <string name="success">Success</string>
     <string name="failure">Failure</string>
 
