@@ -1,31 +1,41 @@
 package com.example.mobileapplication.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.entity.OrderSummary;
 import com.example.mobileapplication.interfaces.OnItemClickListener;
+import com.example.mobileapplication.view.order.OrderDetailsActivity;
 
 import java.util.List;
 
+/*
+ * https://www.youtube.com/watch?v=qAHWVIK7_BY&ab_channel=AndroidKnowledge
+ * */
 public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapter.OrderViewHolder> {
 
     private List<OrderSummary> orderList;
     private OnItemClickListener listener;
+    private Context context;
 
-    public OrderSummaryAdapter(List<OrderSummary> orderList) {
+    public OrderSummaryAdapter(List<OrderSummary> orderList, Context context) {
         this.orderList = orderList;
+        this.context = context;
     }
+
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_order_summary_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_order_summary_card, parent, false);
+
         return new OrderViewHolder(view);
     }
 
@@ -37,6 +47,28 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
         holder.orderStatus.setText(order.getOrderStatus());
         holder.noOfItems.setText(String.valueOf(order.getNoOfItems()));
         holder.totalPrice.setText(String.format("$%.2f", order.getTotalPrice()));
+
+        holder.recCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+//                Bundle bundle = new Bundle();
+//                bundle.putString("Title",orderList.get(holder.getAdapterPosition()).getOrderId());
+//
+//                OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment();
+//                orderDetailsFragment.setArguments(bundle);
+
+//                Intent intent = new Intent(MainActivity.this,
+//                        OrderDetailsActivity.class);
+//                intent.putExtra("Title",orderList.get(holder.getAdapterPosition()).getOrderId());
+//                getActivity().startActivity(intent);
+
+
+                Intent intent = new Intent(context, OrderDetailsActivity.class);
+                intent.putExtra("Title", orderList.get(holder.getAdapterPosition()).getOrderId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -47,6 +79,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
 
         TextView orderId, orderDate, orderStatus, noOfItems, totalPrice;
+        View recCard;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +88,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
             orderStatus = itemView.findViewById(R.id.order_summary_status_value_tv);
             noOfItems = itemView.findViewById(R.id.order_summary_items_count_tv);
             totalPrice = itemView.findViewById(R.id.order_summary_total_amount_tv);
+            recCard = itemView.findViewById(R.id.recCard);
         }
     }
 }

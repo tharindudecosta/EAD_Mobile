@@ -18,7 +18,6 @@ import java.util.List;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
     private List<CartItem> cartItems;
-//    private boolean isLoading = true;
 
     public CartAdapter(List<CartItem> cartItems) {
         this.cartItems = cartItems;

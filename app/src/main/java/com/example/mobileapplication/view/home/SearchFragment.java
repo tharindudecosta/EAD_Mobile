@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.mobileapplication.R;
-import com.example.mobileapplication.adapter.MyAdapter;
+import com.example.mobileapplication.adapter.SearchQueryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private MyAdapter adapter;
+    private SearchQueryAdapter adapter;
     private SearchView searchView;
     private List<String> dataList;
     private TextView searchPageTopicTv;
@@ -46,7 +46,7 @@ public class SearchFragment extends Fragment {
         loadData();
 
         // Set up Adapter
-        adapter = new MyAdapter(dataList);
+        adapter = new SearchQueryAdapter(dataList);
         recyclerView.setAdapter(adapter);
 
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {

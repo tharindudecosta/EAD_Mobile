@@ -38,8 +38,6 @@ public class OrdersFragment extends Fragment {
         circleLoader = view.findViewById(R.id.circular_loader_layout);
 
         sampleData = new ArrayList<>();
-        orderSummaryAdapter = new OrderSummaryAdapter(sampleData);
-        recyclerView.setAdapter(orderSummaryAdapter);
 
         // Simulate loading delay (e.g., 2 seconds)
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -56,6 +54,8 @@ public class OrdersFragment extends Fragment {
             }
         }, 2000); // Delay for 2 seconds
 
+        orderSummaryAdapter = new OrderSummaryAdapter(sampleData,getContext());
+        recyclerView.setAdapter(orderSummaryAdapter);
 
         return view;
     }

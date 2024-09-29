@@ -10,12 +10,12 @@ import com.example.mobileapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class SearchQueryAdapter extends RecyclerView.Adapter<SearchQueryAdapter.MyViewHolder> {
 
     private List<String> dataList;
     private List<String> filteredList;
 
-    public MyAdapter(List<String> dataList) {
+    public SearchQueryAdapter(List<String> dataList) {
         this.dataList = dataList;
         this.filteredList = new ArrayList<>(dataList); // Copy of original data for filtering
     }

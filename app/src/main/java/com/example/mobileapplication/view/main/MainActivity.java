@@ -14,7 +14,6 @@ import com.example.mobileapplication.view.home.OrdersFragment;
 import com.example.mobileapplication.view.home.ProfileFragment;
 import com.example.mobileapplication.view.home.SearchFragment;
 import com.example.mobileapplication.view.home.ShoppingCartFragment;
-import com.example.mobileapplication.view.order.OrderSuccessFragment;
 
 /*
 * https://youtu.be/jOFLmKMOcK0
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
-
 
     private void replaceFragment(Fragment fragment){
 

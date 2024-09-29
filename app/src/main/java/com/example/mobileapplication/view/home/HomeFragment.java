@@ -7,20 +7,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
 import com.example.mobileapplication.R;
-import com.example.mobileapplication.adapter.MyAdapter;
+import com.example.mobileapplication.adapter.SearchQueryAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private MyAdapter adapter;
+    private SearchQueryAdapter adapter;
     private SearchView searchView;
     private List<String> dataList;
 
