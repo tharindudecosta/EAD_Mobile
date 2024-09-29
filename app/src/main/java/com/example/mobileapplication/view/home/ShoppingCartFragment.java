@@ -67,9 +67,9 @@ public class ShoppingCartFragment extends Fragment {
     }
 
     private void loadSampleData() {
-        sampleData.add(new CartItem("Product 1", 99.99, 1, R.drawable.app_icon));
-        sampleData.add(new CartItem("Product 2", 149.99, 2, R.drawable.app_icon_x));
-        sampleData.add(new CartItem("Product 3", 299.99, 3, R.drawable.app_icon));
+        sampleData.add(new CartItem("CI001","Product 1", 99.99, 1, R.drawable.app_icon));
+        sampleData.add(new CartItem("CI002","Product 2", 149.99, 2, R.drawable.app_icon_x));
+        sampleData.add(new CartItem("CI003","Product 3", 299.99, 3, R.drawable.app_icon));
 
         cartAdapter.notifyDataSetChanged();
     }

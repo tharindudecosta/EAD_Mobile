@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mobileapplication.R;
+import com.example.mobileapplication.entity.OrderSummary;
 
 public class OrderDetailsActivity extends AppCompatActivity {
     TextView order_details_pro_label_tv;
@@ -23,9 +24,16 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
         order_details_pro_label_tv = findViewById(R.id.order_details_pro_label_tv);
         Intent intent = getIntent();
-        String message = intent.getStringExtra("Title");
 
-        order_details_pro_label_tv.setText(message);
+        OrderSummary order = getIntent().getParcelableExtra("Order");
+
+        if (order != null) {
+            System.out.println(order.getOrderId());
+            System.out.println(order.getOrderDate());
+            System.out.println(order.getCartItems().get(0).getTitle());
+        }
+
+        order_details_pro_label_tv.setText(order.getOrderId());
 
 
 

@@ -61,11 +61,18 @@ public class OrdersFragment extends Fragment {
     }
 
     private void loadSampleData() {
-        sampleData.add(new OrderSummary("ORD001", "2023-09-21", "Shipped", 5, 150.00));
-        sampleData.add(new OrderSummary("ORD002", "2023-09-20", "Delivered", 3, 90.50));
-        sampleData.add(new OrderSummary("ORD003", "2023-09-19", "Pending", 2, 45.99));
-        sampleData.add(new OrderSummary("ORD004", "2023-09-18", "Cancelled", 4, 120.00));
-        sampleData.add(new OrderSummary("ORD005", "2023-09-17", "Processing", 6, 200.75));
+
+        List<CartItem> cartItems = new ArrayList<>();
+
+        cartItems.add(new CartItem("CI001","Product 1", 99.99, 1, R.drawable.app_icon));
+        cartItems.add(new CartItem("CI001","Product 2", 149.99, 2, R.drawable.app_icon_x));
+        cartItems.add(new CartItem("CI001","Product 3", 299.99, 3, R.drawable.app_icon));
+
+        sampleData.add(new OrderSummary("ORD001", "2023-09-21", "Shipped", 5, 150.00,cartItems));
+        sampleData.add(new OrderSummary("ORD002", "2023-09-20", "Delivered", 3, 90.50,cartItems));
+        sampleData.add(new OrderSummary("ORD003", "2023-09-19", "Pending", 2, 45.99,cartItems));
+        sampleData.add(new OrderSummary("ORD004", "2023-09-18", "Cancelled", 4, 120.00,cartItems));
+        sampleData.add(new OrderSummary("ORD005", "2023-09-17", "Processing", 6, 200.75,cartItems));
 
         orderSummaryAdapter.notifyDataSetChanged();
     }

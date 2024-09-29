@@ -1,6 +1,5 @@
 package com.example.mobileapplication.adapter;
 
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 //        holder.circleLoader.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 
         holder.titleTextView.setText(cartItem.getTitle());
-        holder.priceTextView.setText("$" + String.format("%.2f", cartItem.getPrice()));
+        holder.priceTextView.setText("$" + String.format("%.2f", cartItem.getTotalPrice()));
         holder.quantityTextView.setText(String.valueOf(cartItem.getQuantity()));
         holder.productImageView.setImageResource(cartItem.getImageResource());
 

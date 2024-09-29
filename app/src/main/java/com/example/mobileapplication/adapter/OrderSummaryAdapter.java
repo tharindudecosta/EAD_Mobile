@@ -15,10 +15,12 @@ import com.example.mobileapplication.entity.OrderSummary;
 import com.example.mobileapplication.interfaces.OnItemClickListener;
 import com.example.mobileapplication.view.order.OrderDetailsActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*
  * https://www.youtube.com/watch?v=qAHWVIK7_BY&ab_channel=AndroidKnowledge
+ * https://androidknowledge.com/recyclerview-in-android-studio-using-java/
  * */
 public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapter.OrderViewHolder> {
 
@@ -52,20 +54,8 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
             @Override
             public void onClick(View view) {
 
-//                Bundle bundle = new Bundle();
-//                bundle.putString("Title",orderList.get(holder.getAdapterPosition()).getOrderId());
-//
-//                OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment();
-//                orderDetailsFragment.setArguments(bundle);
-
-//                Intent intent = new Intent(MainActivity.this,
-//                        OrderDetailsActivity.class);
-//                intent.putExtra("Title",orderList.get(holder.getAdapterPosition()).getOrderId());
-//                getActivity().startActivity(intent);
-
-
                 Intent intent = new Intent(context, OrderDetailsActivity.class);
-                intent.putExtra("Title", orderList.get(holder.getAdapterPosition()).getOrderId());
+                intent.putExtra("Order", orderList.get(holder.getAdapterPosition()));
                 context.startActivity(intent);
             }
         });
