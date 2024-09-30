@@ -35,6 +35,14 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
         order_details_pro_label_tv.setText(order.getOrderId());
 
+//// In your activity or fragment after inflating the main layout
+//        View shippingLayout = findViewById(R.id.order_details_shipping_add_layout);
+//
+//// Accessing views within the included layout
+//        TextView addressTextView = shippingLayout.findViewById(R.id.shipping_address_text);
+//        addressTextView.setText("123 Main St, New York, NY");
+//
+
 
 
 
