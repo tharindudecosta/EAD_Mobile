@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobileapplication.R;
+import com.example.mobileapplication.helper.DatabaseHelper;
+import com.example.mobileapplication.utils.AlertBoxUtil;
 import com.example.mobileapplication.utils.SystemUtils;
 import com.example.mobileapplication.utils.Utils;
 import com.example.mobileapplication.view.main.MainActivity;
@@ -34,10 +36,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private Button goButton, signUpButton;
     private TextInputEditText editUserName, editPassword;
 
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.activity_sign_in);
         initView();
     }
 
@@ -52,6 +56,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         editPassword = findViewById(R.id.editPassword);
         editUserName = findViewById(R.id.editEmail);
+
+        databaseHelper = new DatabaseHelper(this);
 
         goButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
@@ -93,29 +99,57 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void loginValidation() {
-//        if (Utils.inputValidation(editUserName)) {
-//            username.setErrorEnabled(false);
-//
-//            if (Utils.inputValidation(editPassword)) {
-//                SystemUtils.hideKeyBoard(this);
-//                password.setErrorEnabled(false);
-//                Toast.makeText(this, "Hit your login API", Toast.LENGTH_SHORT).show();
-//
-//                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-//                startActivity(intent);
-//
-//            } else {
-//
-//                password.setError("Please enter your password");
-//            }
-//        } else {
-//
-//            username.setError("Please enter your username");
-//
-//        }
+        if (Utils.inputValidation(editUserName)) {
+            username.setErrorEnabled(false);
 
-        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-        startActivity(intent);
+            if (Utils.inputValidation(editPassword)) {
+                SystemUtils.hideKeyBoard(this);
+                password.setErrorEnabled(false);
+
+                boolean login = databaseHelper.login(editUserName.getText().toString(),editPassword.getText().toString());
+
+                if(login){
+                    Toast.makeText(this, "Hit your login API", Toast.LENGTH_SHORT).show();
+                    successAlertBox();
+                } else {
+                    failureAlertBox();
+                }
+
+
+            } else {
+
+                password.setError("Please enter your password");
+            }
+        } else {
+            username.setError("Please enter your username");
+
+        }
+
+//        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+//        startActivity(intent);
+    }
+
+    private void successAlertBox() {
+
+        AlertBoxUtil.showSuccessAlertBox(this, "Sign up successful", new AlertBoxUtil.DialogCallback() {
+            @Override
+            public void onOkClick() {
+                editUserName.setText("");
+                editPassword.setText("");
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void failureAlertBox() {
+
+        AlertBoxUtil.showFailureAlertBox(this, "Sign up successful", new AlertBoxUtil.DialogCallback() {
+            @Override
+            public void onOkClick() {
+
+            }
+        });
     }
 
 }

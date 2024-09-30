@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobileapplication.R;
+import com.example.mobileapplication.helper.DatabaseHelper;
 import com.example.mobileapplication.utils.AlertBoxUtil;
 import com.example.mobileapplication.utils.SystemUtils;
 import com.example.mobileapplication.utils.Utils;
@@ -30,6 +31,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private Dialog dialog;
     private Button okButton;
 
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         fullName = findViewById(R.id.fullName);
         phoneNumber = findViewById(R.id.phoneNumber);
 
+        databaseHelper = new DatabaseHelper(this);
+
         findViewById(R.id.alreadyHaveAccount).setOnClickListener(this);
         findViewById(R.id.signUpButton).setOnClickListener(this);
     }
@@ -56,52 +61,67 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private void inputValidation() {
         SystemUtils.hideKeyBoard(this);
 
-//        if (!Utils.inputValidation(editFullName)) {
-//            fullName.setError("Please enter your Fullname");
-//            return;
-//        } else {
-//            fullName.setErrorEnabled(false);
-//        }
-//        if (!Utils.inputValidation(editEmail)) {
-//            email.setError("Please enter your username");
-//            return;
-//        } else {
-//            email.setErrorEnabled(false);
-//        }
-//        if (!Utils.inputValidation(editPhoneNumber)) {
-//            phoneNumber.setError("Please enter your phone no");
-//            return;
-//        } else {
-//            phoneNumber.setErrorEnabled(false);
-//        }
-//        if (!Utils.inputValidation(editPassword)) {
-//            password.setError("Please enter your password");
-//            return;
-//        } else {
-//            password.setErrorEnabled(false);
-//        }
+        if (!Utils.inputValidation(editFullName)) {
+            fullName.setError("Please enter your Fullname");
+            return;
+        } else {
+            fullName.setErrorEnabled(false);
+        }
+        if (!Utils.inputValidation(editEmail)) {
+            email.setError("Please enter your email");
+            return;
+        } else {
+            email.setErrorEnabled(false);
+        }
+        if (!Utils.inputValidation(editPhoneNumber)) {
+            phoneNumber.setError("Please enter your phone no");
+            return;
+        } else {
+            phoneNumber.setErrorEnabled(false);
+        }
+        if (!Utils.inputValidation(editPassword)) {
+            password.setError("Please enter your password");
+            return;
+        } else {
+            password.setErrorEnabled(false);
+        }
 
-        Toast.makeText(this, "Continue for Sign up", Toast.LENGTH_SHORT).show();
-        successAlertBox();
+
+        boolean registered = databaseHelper.insert(editEmail.getText().toString(),editPassword.getText().toString(),editFullName.getText().toString(),editPhoneNumber.getText().toString());
+
+        if(registered){
+            Toast.makeText(this, "Continue for Sign up", Toast.LENGTH_SHORT).show();
+            successAlertBox();
+
+            editEmail.setText("");
+            editPassword.setText("");
+            editFullName.setText("");
+            editPhoneNumber.setText("");
+        } else {
+            failureAlertBox();
+        }
+
+
 
     }
 
     private void successAlertBox() {
-//        dialog = new Dialog(SignUpActivity.this);
-//        dialog.setContentView(R.layout.success_alert);
-//        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
-//        dialog.setCancelable(false);
-//
-//        okButton = dialog.findViewById(R.id.okButton);
-//
-//        okButton.setOnClickListener(this);
-//        dialog.show();
 
         AlertBoxUtil.showSuccessAlertBox(this, "Sign up successful", new AlertBoxUtil.DialogCallback() {
             @Override
             public void onOkClick() {
                 Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void failureAlertBox() {
+
+        AlertBoxUtil.showFailureAlertBox(this, "Sign up successful", new AlertBoxUtil.DialogCallback() {
+            @Override
+            public void onOkClick() {
+
             }
         });
     }
