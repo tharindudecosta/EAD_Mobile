@@ -23,8 +23,9 @@
             android:name=".view.main.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".view.home.HomePageActivity"
-            android:exported="false" /> <!-- <activity -->
+            android:name=".view.image.ImageViewActivity"
+            android:exported="false" />
+        <!-- <activity -->
         <!-- android:name=".login.LoginPageActivity" -->
         <!-- android:exported="true"> -->
         <!-- <intent-filter> -->
@@ -32,9 +33,9 @@
         <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
         <!-- </intent-filter> -->
         <!-- </activity> -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".view.main.MainActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".view.signup.SignUpActivity"
             android:theme="@style/FullScreen" />

@@ -99,34 +99,34 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void loginValidation() {
-        if (Utils.inputValidation(editUserName)) {
-            username.setErrorEnabled(false);
+//        if (Utils.inputValidation(editUserName)) {
+//            username.setErrorEnabled(false);
+//
+//            if (Utils.inputValidation(editPassword)) {
+//                SystemUtils.hideKeyBoard(this);
+//                password.setErrorEnabled(false);
+//
+//                boolean login = databaseHelper.login(editUserName.getText().toString(),editPassword.getText().toString());
+//
+//                if(login){
+//                    Toast.makeText(this, "Hit your login API", Toast.LENGTH_SHORT).show();
+//                    successAlertBox();
+//                } else {
+//                    failureAlertBox();
+//                }
+//
+//
+//            } else {
+//
+//                password.setError("Please enter your password");
+//            }
+//        } else {
+//            username.setError("Please enter your username");
+//
+//        }
 
-            if (Utils.inputValidation(editPassword)) {
-                SystemUtils.hideKeyBoard(this);
-                password.setErrorEnabled(false);
-
-                boolean login = databaseHelper.login(editUserName.getText().toString(),editPassword.getText().toString());
-
-                if(login){
-                    Toast.makeText(this, "Hit your login API", Toast.LENGTH_SHORT).show();
-                    successAlertBox();
-                } else {
-                    failureAlertBox();
-                }
-
-
-            } else {
-
-                password.setError("Please enter your password");
-            }
-        } else {
-            username.setError("Please enter your username");
-
-        }
-
-//        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void successAlertBox() {
@@ -139,6 +139,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                 startActivity(intent);
             }
+            @Override
+            public void onCancelClick() {}
         });
     }
 
@@ -146,9 +148,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         AlertBoxUtil.showFailureAlertBox(this, "Sign up successful", new AlertBoxUtil.DialogCallback() {
             @Override
-            public void onOkClick() {
-
-            }
+            public void onOkClick() {}
+            @Override
+            public void onCancelClick() {}
         });
     }
 

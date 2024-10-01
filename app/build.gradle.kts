@@ -45,5 +45,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation("com.airbnb.android:lottie:3.4.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
 }

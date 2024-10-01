@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.entity.Product;
+import com.example.mobileapplication.view.products.ProductDetailsActivity;
 
 import java.util.List;
 
@@ -39,8 +40,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     public void onBindViewHolder(@NonNull HomeProductViewHolder holder, int position) {
 
         Product product = productList.get(position);
-        System.out.println(position);
-        System.out.println(product.getProductId());
+
 
         holder.titleTextView.setText(product.getTitle());
         holder.priceTextView.setText("$" + String.format("%.2f", product.getUnitPrice()));
@@ -48,10 +48,10 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
 
         holder.itemView.setOnClickListener(v -> {
-//            Intent intent = new Intent(context, ProductDetailActivity.class);
-//            intent.putExtra("product", product); // Assuming CartItem is Serializable or Parcelable
-//            context.startActivity(intent);
-            Toast.makeText(context, product.getTitle() + " On click", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, ProductDetailsActivity.class);
+            intent.putExtra("product", product); // Assuming CartItem is Serializable or Parcelable
+            context.startActivity(intent);
+//            Toast.makeText(context, product.getTitle() + " On click", Toast.LENGTH_SHORT).show();
         });
 
         holder.addToCartImageButton.setOnClickListener(v -> {

@@ -52,7 +52,7 @@ public class Product implements Parcelable {
         this.quantity = quantity;
     }
 
-    public int getImageResource() {
+    public Integer getImageResource() {
         return imageResource;
     }
 
@@ -84,15 +84,15 @@ public class Product implements Parcelable {
         parcel.writeInt(imageResource);
     }
 
-    public static final Creator<OrderSummary> CREATOR = new Creator<OrderSummary>() {
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
         @Override
-        public OrderSummary createFromParcel(Parcel in) {
-            return new OrderSummary(in);
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
         }
 
         @Override
-        public OrderSummary[] newArray(int size) {
-            return new OrderSummary[size];
+        public Product[] newArray(int size) {
+            return new Product[size];
         }
     };
 }

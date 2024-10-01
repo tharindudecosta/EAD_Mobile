@@ -113,6 +113,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                 startActivity(intent);
             }
+            @Override
+            public void onCancelClick() {}
         });
     }
 
@@ -120,9 +122,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         AlertBoxUtil.showFailureAlertBox(this, "Sign up successful", new AlertBoxUtil.DialogCallback() {
             @Override
-            public void onOkClick() {
-
-            }
+            public void onOkClick() {}
+            @Override
+            public void onCancelClick() {}
         });
     }
 

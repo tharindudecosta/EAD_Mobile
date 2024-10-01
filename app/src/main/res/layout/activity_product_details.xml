@@ -8,12 +8,12 @@
     tools:context=".view.products.ProductDetailsActivity">
 
 
-    <include
-        android:id="@+id/loader_layout"
-        layout="@layout/layout_circular_loader"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center" />
+<!--    <include-->
+<!--        android:id="@+id/loader_layout"-->
+<!--        layout="@layout/layout_circular_loader"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="center" />-->
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/pro_details_scroll_view"
@@ -57,33 +57,20 @@
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/pro_details_like_btn"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pro_details_images_recyclerview"
                 tools:text="Some Title of The Product van be multiline" />
 
-            <ImageButton
-                android:id="@+id/pro_details_like_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@null"
-                android:backgroundTint="#FFFFFF"
-                android:contentDescription="@string/pro_details_like_btn_desc"
-                android:padding="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/pro_details_title_tv"
-                app:srcCompat="@drawable/heart_icon_drawable" />
-
             <RatingBar
                 android:id="@+id/pro_details_rating_bar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:progressTint="@color/gold"
-                android:rating="3.5"
+                android:rating="0.5"
                 android:secondaryProgressTint="#FFFFFF"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/pro_details_title_tv" />

@@ -14,8 +14,8 @@ import com.example.mobileapplication.R;
 import com.example.mobileapplication.entity.OrderSummary;
 
 public class OrderDetailsActivity extends AppCompatActivity {
-    TextView order_details_pro_label_tv;
 
+    TextView order_details_pro_label_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
