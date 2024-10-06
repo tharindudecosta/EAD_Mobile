@@ -10,13 +10,22 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobileapplication.R;
+import com.example.mobileapplication.api.LoginApi;
+import com.example.mobileapplication.entity.LoginRequest;
+import com.example.mobileapplication.entity.RegisterRequest;
+import com.example.mobileapplication.entity.RegisterRequest;
 import com.example.mobileapplication.helper.DatabaseHelper;
+import com.example.mobileapplication.helper.RetrofitService;
 import com.example.mobileapplication.utils.AlertBoxUtil;
 import com.example.mobileapplication.utils.SystemUtils;
 import com.example.mobileapplication.utils.Utils;
 import com.example.mobileapplication.view.signin.SignInActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
  * References
@@ -89,19 +98,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         boolean registered = databaseHelper.insert(editEmail.getText().toString(),editPassword.getText().toString(),editFullName.getText().toString(),editPhoneNumber.getText().toString());
 
-        if(registered){
-            Toast.makeText(this, "Continue for Sign up", Toast.LENGTH_SHORT).show();
-            successAlertBox();
+        RegisterRequest request = new RegisterRequest();
+        request.setEmail(editEmail.getText().toString());
+        request.setPassword(editPassword.getText().toString());
+        request.setName(editFullName.getText().toString());
+        request.setContactNo(editPhoneNumber.getText().toString());
+        request.setNic("xxxxxxxxxxxxxxxxxxxx");
+        request.setGender("xxxxxxxxxxxxxxxxxxxx");
 
-            editEmail.setText("");
-            editPassword.setText("");
-            editFullName.setText("");
-            editPhoneNumber.setText("");
-        } else {
-            failureAlertBox();
-        }
-
-
+        executeRegister(request);
 
     }
 
@@ -137,6 +142,31 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         } else if (viewId == R.id.alreadyHaveAccount) {
             getOnBackPressedDispatcher().onBackPressed();
         }
+
+    }
+
+
+    private void executeRegister(RegisterRequest loginRequest) {
+
+        RetrofitService retrofitService = new RetrofitService();
+        LoginApi productsApi = retrofitService.getRetrofit().create(LoginApi.class);
+
+        productsApi.Register(loginRequest).enqueue(new Callback<RegisterRequest>() {
+            @Override
+            public void onResponse(Call<RegisterRequest> call, Response<RegisterRequest> response) {
+                if (response.isSuccessful()) {
+                    RegisterRequest registerResponse = response.body();
+                    successAlertBox();
+                } else {
+                    failureAlertBox();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterRequest> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
 
     }
 }

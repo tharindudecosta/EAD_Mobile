@@ -47,4 +47,10 @@ dependencies {
     implementation("com.airbnb.android:lottie:3.4.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+// https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+
 }

@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mobileapplication.R;
+import com.example.mobileapplication.api.LoginApi;
+import com.example.mobileapplication.entity.LoginRequest;
+import com.example.mobileapplication.entity.LoginResponse;
 import com.example.mobileapplication.helper.DatabaseHelper;
+import com.example.mobileapplication.helper.RetrofitService;
 import com.example.mobileapplication.utils.AlertBoxUtil;
 import com.example.mobileapplication.utils.SystemUtils;
 import com.example.mobileapplication.utils.Utils;
@@ -21,6 +24,10 @@ import com.example.mobileapplication.view.main.MainActivity;
 import com.example.mobileapplication.view.signup.SignUpActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
 * References
@@ -35,8 +42,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private TextInputLayout username, password;
     private Button goButton, signUpButton;
     private TextInputEditText editUserName, editPassword;
-
-    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +61,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         editPassword = findViewById(R.id.editPassword);
         editUserName = findViewById(R.id.editEmail);
-
-        databaseHelper = new DatabaseHelper(this);
 
         goButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
@@ -99,34 +102,27 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void loginValidation() {
-//        if (Utils.inputValidation(editUserName)) {
-//            username.setErrorEnabled(false);
-//
-//            if (Utils.inputValidation(editPassword)) {
-//                SystemUtils.hideKeyBoard(this);
-//                password.setErrorEnabled(false);
-//
-//                boolean login = databaseHelper.login(editUserName.getText().toString(),editPassword.getText().toString());
-//
-//                if(login){
-//                    Toast.makeText(this, "Hit your login API", Toast.LENGTH_SHORT).show();
-//                    successAlertBox();
-//                } else {
-//                    failureAlertBox();
-//                }
-//
-//
-//            } else {
-//
-//                password.setError("Please enter your password");
-//            }
-//        } else {
-//            username.setError("Please enter your username");
-//
-//        }
+        if (Utils.inputValidation(editUserName)) {
+            username.setErrorEnabled(false);
 
-        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-        startActivity(intent);
+            if (Utils.inputValidation(editPassword)) {
+                SystemUtils.hideKeyBoard(this);
+                password.setErrorEnabled(false);
+
+//                LoginRequest loginRequest = new LoginRequest(editUserName.getText().toString(), editPassword.getText().toString());
+//                executeLogin(loginRequest);
+
+                successAlertBox();
+
+
+            } else {
+                password.setError("Please enter your password");
+            }
+        } else {
+            username.setError("Please enter your username");
+
+        }
+
     }
 
     private void successAlertBox() {
@@ -152,6 +148,30 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onCancelClick() {}
         });
+    }
+
+    private void executeLogin(LoginRequest loginRequest) {
+
+        RetrofitService retrofitService = new RetrofitService();
+        LoginApi productsApi = retrofitService.getRetrofit().create(LoginApi.class);
+
+        productsApi.login(loginRequest).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    LoginResponse loginResponse = response.body();
+                    successAlertBox();
+                } else {
+                    failureAlertBox();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
+
     }
 
 }
