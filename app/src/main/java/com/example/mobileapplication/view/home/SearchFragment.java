@@ -2,6 +2,7 @@ package com.example.mobileapplication.view.home;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,9 +15,16 @@ import android.widget.TextView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.SearchQueryAdapter;
+import com.example.mobileapplication.api.ProductApi;
+import com.example.mobileapplication.entity.Product;
+import com.example.mobileapplication.helper.RetrofitService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
 
@@ -31,7 +39,6 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        // Initialize RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setVisibility(View.GONE);
@@ -42,8 +49,7 @@ public class SearchFragment extends Fragment {
         searchPageTopicTv.setVisibility(View.VISIBLE);
 //        recyclerView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
 
-
-        loadData();
+        loadProductData();
 
         // Set up Adapter
         adapter = new SearchQueryAdapter(dataList);
@@ -64,17 +70,16 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        // Set up SearchView Listener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.filter(query);  // Filter the RecyclerView
+                adapter.filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.filter(newText);  // Filter as text changes
+                adapter.filter(newText);
                 return false;
             }
         });
@@ -83,18 +88,27 @@ public class SearchFragment extends Fragment {
 
     }
 
-    // Load some sample data
-    private void loadData() {
-        dataList = new ArrayList<>();
-        dataList.add("Apple");
-        dataList.add("Banana");
-        dataList.add("Orange");
-        dataList.add("Pineapple");
-        dataList.add("Grapes");
-        dataList.add("Mango");
-        dataList.add("Strawberry");
-        dataList.add("Blueberry");
-        dataList.add("Watermelon");
-        dataList.add("Papaya");
+
+    private void loadProductData() {
+
+        RetrofitService retrofitService = new RetrofitService();
+        ProductApi productApi = retrofitService.getRetrofit().create(ProductApi.class);
+
+        productApi.getProducts().enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
+                if(response.body()!=null) {
+                    for (Product product:response.body()){
+                        dataList.add(product.getTitle());
+                        adapter.notifyDataSetChanged();
+
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+
+            }
+        });
     }
 }

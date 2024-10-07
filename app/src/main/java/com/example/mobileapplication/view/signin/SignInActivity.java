@@ -15,6 +15,7 @@ import com.example.mobileapplication.R;
 import com.example.mobileapplication.api.LoginApi;
 import com.example.mobileapplication.entity.LoginRequest;
 import com.example.mobileapplication.entity.LoginResponse;
+import com.example.mobileapplication.entity.User;
 import com.example.mobileapplication.helper.DatabaseHelper;
 import com.example.mobileapplication.helper.RetrofitService;
 import com.example.mobileapplication.utils.AlertBoxUtil;
@@ -30,11 +31,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /*
-* References
-*
-* https://github.com/kumaar8293/Simple-Login-Page-for-Android
-*
-* */
+ * References
+ *
+ * https://github.com/kumaar8293/Simple-Login-Page-for-Android
+ *
+ * */
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView appLogo;
     private TextView tvWelcomeThere;
@@ -42,6 +43,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private TextInputLayout username, password;
     private Button goButton, signUpButton;
     private TextInputEditText editUserName, editPassword;
+
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +113,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 password.setErrorEnabled(false);
 
                 LoginRequest loginRequest = new LoginRequest(editUserName.getText().toString(), editPassword.getText().toString());
-//                executeLogin(loginRequest);
+                executeLogin(loginRequest);
 
                 successAlertBox();
 
@@ -135,8 +138,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                 startActivity(intent);
             }
+
             @Override
-            public void onCancelClick() {}
+            public void onCancelClick() {
+            }
         });
     }
 
@@ -144,9 +149,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         AlertBoxUtil.showFailureAlertBox(this, "Sign up successful", new AlertBoxUtil.DialogCallback() {
             @Override
-            public void onOkClick() {}
+            public void onOkClick() {
+            }
+
             @Override
-            public void onCancelClick() {}
+            public void onCancelClick() {
+            }
         });
     }
 
@@ -160,7 +168,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
                     LoginResponse loginResponse = response.body();
-                    successAlertBox();
+                    getCustomer(loginResponse.getToken());
                 } else {
                     failureAlertBox();
                 }
@@ -169,6 +177,27 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 System.out.println(t);
+            }
+        });
+
+    }
+
+    private void getCustomer(String customerId) {
+        RetrofitService retrofitService = new RetrofitService();
+        LoginApi loginApi = retrofitService.getRetrofit().create(LoginApi.class);
+        loginApi.getUser(customerId).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+                boolean registered = databaseHelper.createSession(user.getId(), user.getEmail(), user.getPassword(), user.getName(), user.getContactNo());
+                if (registered) {
+                    successAlertBox();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                failureAlertBox();
             }
         });
 

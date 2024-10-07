@@ -1,6 +1,7 @@
 package com.example.mobileapplication.api;
 
 import com.example.mobileapplication.entity.Product;
+import com.example.mobileapplication.entity.Review;
 
 import java.util.List;
 
@@ -8,15 +9,9 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface ProductApi {
+public interface VendorApi {
 
-    @GET("api/Product")
-    Call<List<Product>> getProducts();
-
-    @GET("api/Product/{id}")
-    Call<Product> getProductById(@Path("id") String productId);
-
-
-
+    @GET("api/Vendor/{vendorId}/review")
+    Call<List<Review>> getReviews(@Path("id") String productId);
 
 }

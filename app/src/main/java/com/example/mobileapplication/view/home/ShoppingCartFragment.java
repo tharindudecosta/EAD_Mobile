@@ -17,11 +17,19 @@ import android.widget.TextView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.CartAdapter;
+import com.example.mobileapplication.api.OrderApi;
 import com.example.mobileapplication.constants.Constants;
 import com.example.mobileapplication.entity.CartItem;
+import com.example.mobileapplication.entity.OrderSummary;
+import com.example.mobileapplication.helper.DatabaseHelper;
+import com.example.mobileapplication.helper.RetrofitService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ShoppingCartFragment extends Fragment {
 
@@ -30,6 +38,7 @@ public class ShoppingCartFragment extends Fragment {
     private List<CartItem> sampleData;
     private TextView textView;
     private View circleLoader;
+    private DatabaseHelper databaseHelper;
 
     @Nullable
     @Override
@@ -44,17 +53,14 @@ public class ShoppingCartFragment extends Fragment {
         circleLoader.setVisibility(View.VISIBLE);
 
 
-        // Initially set an empty list or loading indicator
         sampleData = new ArrayList<>();
         cartAdapter = new CartAdapter(sampleData, Constants.CART_VIEW);
         recyclerView.setAdapter(cartAdapter);
 
-        // Simulate loading delay (e.g., 2 seconds)
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Once the delay is over, load the actual data
-                loadSampleData();
+                getCart();
 
                 if (sampleData.isEmpty()){
                     textView.setVisibility(View.VISIBLE);
@@ -62,16 +68,35 @@ public class ShoppingCartFragment extends Fragment {
                 circleLoader.setVisibility(View.GONE);
 
             }
-        }, 2000); // Delay for 2 seconds
+        }, 2000);
 
         return view;
     }
 
-    private void loadSampleData() {
-        sampleData.add(new CartItem("CI001","Product 1", 99.99, 1, R.drawable.app_icon));
-        sampleData.add(new CartItem("CI002","Product 2", 149.99, 2, R.drawable.app_icon_x));
-        sampleData.add(new CartItem("CI003","Product 3", 299.99, 3, R.drawable.app_icon));
 
+    private void getCart(){
+        List<CartItem> cartItems = databaseHelper.getAllCartItems();
+        sampleData.addAll(cartItems);
         cartAdapter.notifyDataSetChanged();
+
     }
+
+    private void createOrder(){
+        RetrofitService retrofitService = new RetrofitService();
+        OrderApi orderApi = retrofitService.getRetrofit().create(OrderApi.class);
+
+        orderApi.createCustomerOrder().enqueue(new Callback<OrderSummary>() {
+            @Override
+            public void onResponse(Call<OrderSummary> call, Response<OrderSummary> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<OrderSummary> call, Throwable t) {
+
+            }
+        });
+
+    }
+
 }

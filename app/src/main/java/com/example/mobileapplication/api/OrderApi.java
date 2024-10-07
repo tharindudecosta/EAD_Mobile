@@ -14,16 +14,16 @@ import retrofit2.http.Path;
 public interface OrderApi {
 
     @GET("api/Order/customer/{id}")
-    Call<List<OrderSummary>> getCustomerOrders();
+    Call<List<OrderSummary>> getCustomerOrders(@Path("id") String customerId);
 
     @GET("api/Order/{id}")
-    Call<OrderSummary> getOrderById(@Path("id") int orderId);
+    Call<OrderSummary> getOrderById(@Path("id") String orderId);
 
     @POST("api/Order")
     Call<OrderSummary> createCustomerOrder();
 
     @PUT("api/Order/{id}")
-    Call<OrderSummary> updateCustomerOrder();
+    Call<OrderSummary> updateCustomerOrder(@Path("id") String orderId);
 
 
 

@@ -18,10 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.CarouselImageAdapter;
 import com.example.mobileapplication.adapter.HomeProductAdapter;
-import com.example.mobileapplication.api.LoginApi;
 import com.example.mobileapplication.api.ProductApi;
-import com.example.mobileapplication.entity.LoginRequest;
-import com.example.mobileapplication.entity.LoginResponse;
 import com.example.mobileapplication.entity.Product;
 import com.example.mobileapplication.helper.RetrofitService;
 import com.example.mobileapplication.utils.SmoothScroller;
@@ -47,7 +44,7 @@ public class HomeFragment extends Fragment {
     private Runnable runnable;
     private int scrollPosition = 0;
 
-    private boolean isImageClicked = false;  // Flag to check if an image was clicked
+    private boolean isImageClicked = false;
     View view;
     @Nullable
     @Override
@@ -71,9 +68,8 @@ public class HomeFragment extends Fragment {
         });
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-
-            loadSampleData();
-            loadImages();
+            loadProductData();
+            loadAdImages();
             if (!productList.isEmpty()) {
                 circleLoader.setVisibility(View.GONE);
             }
@@ -103,7 +99,7 @@ public class HomeFragment extends Fragment {
         runnable = new Runnable() {
             @Override
             public void run() {
-                if (!isImageClicked) { // Ensure it doesn't auto-scroll when an image is clicked
+                if (!isImageClicked) {
                     if (scrollPosition == carouselImageAdapter.getItemCount() - 1) {
                         scrollPosition = 0;
                     } else {
@@ -116,18 +112,17 @@ public class HomeFragment extends Fragment {
                     imageRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
 
                     imageRecyclerView.smoothScrollToPosition(scrollPosition);
-                    handler.postDelayed(this, 3000);  // Continue auto-scrolling every 3 seconds
+                    handler.postDelayed(this, 3000);
                 }
             }
         };
-        handler.postDelayed(runnable, 3000);  // Start auto-scrolling after initial delay
+        handler.postDelayed(runnable, 3000);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (isImageClicked) {
-            // Resume auto-scrolling when returning from ImageViewActivity
             isImageClicked = false;
             startAutoScroll();
         }
@@ -135,33 +130,20 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Remove callbacks when the fragment is destroyed to avoid memory leaks
         stopAutoScroll();
     }
     private void startAutoScroll() {
-        handler.postDelayed(runnable, 3000);  // Start auto-scrolling
+        handler.postDelayed(runnable, 3000);
     }
 
     private void stopAutoScroll() {
         if (handler != null && runnable != null) {
-            handler.removeCallbacks(runnable);  // Stop auto-scrolling
+            handler.removeCallbacks(runnable);
         }
     }
 
 
-    private void loadSampleData() {
-        productList.add(new Product("P001", "Product number 1", 99.99, 1, R.drawable.app_icon));
-        productList.add(new Product("P002", "Product number 2", 149.99, 2, R.drawable.app_icon_x));
-        productList.add(new Product("CI001", "Product number 3", 299.99, 3, R.drawable.app_icon));
-        productList.add(new Product("CI001", "Product number 4", 299.99, 3, R.drawable.baseline_close_24));
-        productList.add(new Product("CI001", "Product number 5", 299.99, 3, R.drawable.app_icon));
-        productList.add(new Product("CI001", "Product number 6", 299.99, 3, R.drawable.app_icon));
-
-        homeProductAdapter.notifyDataSetChanged();
-    }
-
-
-    private void loadImages() {
+    private void loadAdImages() {
         imageList.add(R.drawable.ad_1);
         imageList.add(R.drawable.ad_2);
         imageList.add(R.drawable.ad_3);
@@ -183,17 +165,13 @@ public class HomeFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 if(response.body()!=null) {
                     productList.addAll(response.body());
-
                     homeProductAdapter.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
 
             }
         });
-
-
     }
 }

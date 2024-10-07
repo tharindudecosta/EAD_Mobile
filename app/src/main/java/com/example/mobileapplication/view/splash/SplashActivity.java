@@ -16,15 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.view.signin.SignInActivity;
 
-
-/**
- * Simple Splash activity with some Transition
- * You can validate your Login details and send to
- * activity accordingly
- */
 public class SplashActivity extends AppCompatActivity {
 
-    //Variables
     private Animation topAnim, bottomAnim, rightToCenter;
 
     private Handler handler = new Handler();
@@ -36,8 +29,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //To hide Status bar or we can do with Theme also
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
 
         initAnimation();
@@ -82,10 +73,6 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void run() {
 
-            //Attach all the elements those you want to animate in design
-            //Pair Class uses same key value type pair
-            //Key is the View to be animated while transition
-            // transitionName matches with SignInActivity XML elements
             Pair[] pairs = new Pair[3];
             pairs[0] = new Pair<View, String>(appLogo, "app_icon2");
             pairs[1] = new Pair<View, String>(appTitle, getString(R.string.hello_there_welcome_back));

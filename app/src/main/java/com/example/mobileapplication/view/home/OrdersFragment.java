@@ -15,11 +15,16 @@ import android.widget.TextView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.OrderSummaryAdapter;
-import com.example.mobileapplication.entity.CartItem;
+import com.example.mobileapplication.api.OrderApi;
 import com.example.mobileapplication.entity.OrderSummary;
+import com.example.mobileapplication.helper.RetrofitService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrdersFragment extends Fragment {
 
@@ -42,7 +47,7 @@ public class OrdersFragment extends Fragment {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                loadSampleData();
+                loadCustomerOrderData();
 
                 if (sampleData.isEmpty()) {
                     textView.setVisibility(View.VISIBLE);
@@ -58,20 +63,22 @@ public class OrdersFragment extends Fragment {
         return view;
     }
 
-    private void loadSampleData() {
+    private void loadCustomerOrderData() {
+        RetrofitService retrofitService = new RetrofitService();
+        OrderApi orderApi = retrofitService.getRetrofit().create(OrderApi.class);
 
-        List<CartItem> cartItems = new ArrayList<>();
+        orderApi.getCustomerOrders("1").enqueue(new Callback<List<OrderSummary>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<OrderSummary>> call, @NonNull Response<List<OrderSummary>> response) {
+                if(response.body()!=null) {
+                    sampleData.addAll(response.body());
+                    orderSummaryAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<OrderSummary>> call, Throwable t) {
 
-        cartItems.add(new CartItem("CI001", "Product 1", 99.99, 1, R.drawable.app_icon));
-        cartItems.add(new CartItem("CI001", "Product 2", 149.99, 2, R.drawable.app_icon_x));
-        cartItems.add(new CartItem("CI001", "Product 3", 299.99, 3, R.drawable.app_icon));
-
-        sampleData.add(new OrderSummary("ORD001", "2023-09-21", "Shipped", 5, 150.00, cartItems));
-        sampleData.add(new OrderSummary("ORD002", "2023-09-20", "Delivered", 3, 90.50, cartItems));
-        sampleData.add(new OrderSummary("ORD003", "2023-09-19", "Pending", 2, 45.99, cartItems));
-        sampleData.add(new OrderSummary("ORD004", "2023-09-18", "Cancelled", 4, 120.00, cartItems));
-        sampleData.add(new OrderSummary("ORD005", "2023-09-17", "Processing", 6, 200.75, cartItems));
-
-        orderSummaryAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

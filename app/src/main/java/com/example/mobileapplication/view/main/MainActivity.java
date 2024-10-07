@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         fragmentTransaction.setCustomAnimations(
-                R.anim.slide_in_right,  // Enter animation
-                R.anim.slide_out_left,  // Exit animation
-                R.anim.slide_in_left,   // Pop enter (when coming back from back stack)
-                R.anim.slide_out_right  // Pop exit (when going back to the previous fragment)
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
         );
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.frameLayout,fragment);

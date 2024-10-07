@@ -12,10 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.ReviewAdapter; // Assuming you have this adapter class
+import com.example.mobileapplication.api.LoginApi;
+import com.example.mobileapplication.api.VendorApi;
 import com.example.mobileapplication.entity.Review;
+import com.example.mobileapplication.helper.RetrofitService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CustomerReviews extends AppCompatActivity {
 
@@ -29,31 +36,34 @@ public class CustomerReviews extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_customer_reviews);
 
-        // Initialize the RecyclerView
         reviewsRecyclerView = findViewById(R.id.allReviews);
         reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Set up the review list and adapter
-        reviewList = getSampleReviews(); // You can replace this with actual data fetching logic
+        reviewList = new ArrayList<>();
+        getReviews();
         reviewAdapter = new ReviewAdapter(reviewList);
         reviewsRecyclerView.setAdapter(reviewAdapter);
 
-//        // Handle window insets
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.reviewsPage), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
     }
 
-    // Sample data generation (replace with actual data fetching logic)
-    private List<Review> getSampleReviews() {
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(new Review("Vendor A", "Great product! Highly recommend for anyone looking for quality.", 5));
-        reviews.add(new Review("Vendor B", "Decent quality but a bit overpriced for what you get.", 3));
-        reviews.add(new Review("Vendor C", "Not what I expected. The quality could be much better.", 2));
-        reviews.add(new Review("Vendor D", "Excellent service and product. Will buy again!", 4));
-        reviews.add(new Review("Vendor E", "Terrible experience, the item was damaged on arrival.", 1));
-        return reviews;
+
+    private void getReviews(){
+        RetrofitService retrofitService = new RetrofitService();
+        VendorApi vendorApi = retrofitService.getRetrofit().create(VendorApi.class);
+
+        vendorApi.getReviews("1").enqueue(new Callback<List<Review>>() {
+            @Override
+            public void onResponse(Call<List<Review>> call, Response<List<Review>> response) {
+                reviewList.addAll(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Review>> call, Throwable t) {
+
+            }
+        });
+
     }
+
+
 }

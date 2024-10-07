@@ -11,8 +11,8 @@ public class RetrofitService {
     private Retrofit retrofit;
 
     public final static String BACKEND_PORT = "44309";
-    public final static String EMULATOR_IP_ADDRESS = "10.0.2.2"; // Correct IP for host machine
-    public final static String LH_IP_ADDRESS = "127.0.0.1"; // For reference only
+    public final static String EMULATOR_IP_ADDRESS = "10.0.2.2";
+    public final static String LH_IP_ADDRESS = "127.0.0.1";
 
     public RetrofitService() {
         initializeRetrofit();
@@ -20,15 +20,14 @@ public class RetrofitService {
 
     private void initializeRetrofit() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + EMULATOR_IP_ADDRESS + ":" + BACKEND_PORT+"/") // Use emulator IP
-                .client(getUnsafeOkHttpClient())  // Use the unsafe OkHttp client for local HTTPS
+                .baseUrl("https://" + EMULATOR_IP_ADDRESS + ":" + BACKEND_PORT+"/")
+                .client(getUnsafeOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
     private OkHttpClient getUnsafeOkHttpClient() {
         try {
-            // Create a trust manager that does not validate certificate chains
             final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
                         @Override
@@ -46,15 +45,13 @@ public class RetrofitService {
                     }
             };
 
-            // Install the all-trusting trust manager
             final SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            // Create an ssl socket factory with our all-trusting manager
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-            builder.hostnameVerifier((hostname, session) -> true); // Trust any hostname
+            builder.hostnameVerifier((hostname, session) -> true);
 
             return builder.build();
         } catch (Exception e) {
