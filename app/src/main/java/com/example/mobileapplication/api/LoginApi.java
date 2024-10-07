@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 
 public interface LoginApi {
 
-    @POST("/api/User/login")
+    @POST("api/User/login")
     Call<LoginResponse> login(@Body LoginRequest model);
 
     @POST("/api/User")

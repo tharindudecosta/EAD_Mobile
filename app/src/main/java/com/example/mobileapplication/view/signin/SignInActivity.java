@@ -109,7 +109,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 SystemUtils.hideKeyBoard(this);
                 password.setErrorEnabled(false);
 
-//                LoginRequest loginRequest = new LoginRequest(editUserName.getText().toString(), editPassword.getText().toString());
+                LoginRequest loginRequest = new LoginRequest(editUserName.getText().toString(), editPassword.getText().toString());
 //                executeLogin(loginRequest);
 
                 successAlertBox();

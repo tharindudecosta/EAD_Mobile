@@ -18,12 +18,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.CarouselImageAdapter;
 import com.example.mobileapplication.adapter.HomeProductAdapter;
+import com.example.mobileapplication.api.LoginApi;
+import com.example.mobileapplication.api.ProductApi;
+import com.example.mobileapplication.entity.LoginRequest;
+import com.example.mobileapplication.entity.LoginResponse;
 import com.example.mobileapplication.entity.Product;
+import com.example.mobileapplication.helper.RetrofitService;
 import com.example.mobileapplication.utils.SmoothScroller;
 import com.example.mobileapplication.view.image.ImageViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
@@ -62,6 +71,7 @@ public class HomeFragment extends Fragment {
         });
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
+
             loadSampleData();
             loadImages();
             if (!productList.isEmpty()) {
@@ -160,5 +170,30 @@ public class HomeFragment extends Fragment {
         imageList.add(R.drawable.ad_3);
 
         carouselImageAdapter.notifyDataSetChanged();
+    }
+
+
+    private void loadProductData() {
+
+        RetrofitService retrofitService = new RetrofitService();
+        ProductApi productApi = retrofitService.getRetrofit().create(ProductApi.class);
+
+        productApi.getProducts().enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
+                if(response.body()!=null) {
+                    productList.addAll(response.body());
+
+                    homeProductAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+
+            }
+        });
+
+
     }
 }

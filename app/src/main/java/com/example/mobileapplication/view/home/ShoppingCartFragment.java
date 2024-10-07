@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.CartAdapter;
+import com.example.mobileapplication.constants.Constants;
 import com.example.mobileapplication.entity.CartItem;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class ShoppingCartFragment extends Fragment {
 
         // Initially set an empty list or loading indicator
         sampleData = new ArrayList<>();
-        cartAdapter = new CartAdapter(sampleData);
+        cartAdapter = new CartAdapter(sampleData, Constants.CART_VIEW);
         recyclerView.setAdapter(cartAdapter);
 
         // Simulate loading delay (e.g., 2 seconds)

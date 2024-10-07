@@ -17,9 +17,11 @@ import java.util.List;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
     private List<CartItem> cartItems;
+    private String currentView;
 
-    public CartAdapter(List<CartItem> cartItems) {
+    public CartAdapter(List<CartItem> cartItems,String currentView) {
         this.cartItems = cartItems;
+        this.currentView = currentView;
     }
 
     @NonNull
