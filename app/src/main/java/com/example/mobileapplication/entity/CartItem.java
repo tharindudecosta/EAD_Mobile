@@ -11,6 +11,9 @@ public class CartItem implements Parcelable {
     private int quantity;
     private int imageResource;
 
+    public CartItem() {
+    }
+
     // Constructor
     public CartItem(String cartItemId, String title, double price, int quantity, int imageResource) {
         this.cartItemId = cartItemId;

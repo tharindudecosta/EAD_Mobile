@@ -13,18 +13,23 @@ import android.widget.TextView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.api.LoginApi;
+import com.example.mobileapplication.api.ProductApi;
+import com.example.mobileapplication.entity.InventoryItem;
 import com.example.mobileapplication.entity.LoginRequest;
 import com.example.mobileapplication.entity.LoginResponse;
 import com.example.mobileapplication.entity.User;
 import com.example.mobileapplication.helper.DatabaseHelper;
 import com.example.mobileapplication.helper.RetrofitService;
 import com.example.mobileapplication.utils.AlertBoxUtil;
+import com.example.mobileapplication.utils.JwtDecoder;
 import com.example.mobileapplication.utils.SystemUtils;
 import com.example.mobileapplication.utils.Utils;
 import com.example.mobileapplication.view.main.MainActivity;
 import com.example.mobileapplication.view.signup.SignUpActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +48,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private TextInputLayout username, password;
     private Button goButton, signUpButton;
     private TextInputEditText editUserName, editPassword;
+    private View circleLoader;
 
     private DatabaseHelper databaseHelper;
 
@@ -62,9 +68,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         goButton = findViewById(R.id.goButton);
         signUpButton = findViewById(R.id.signUpButton);
 
+        circleLoader = findViewById(R.id.circular_loader_layout);
+        circleLoader.setVisibility(View.GONE);
+
         editPassword = findViewById(R.id.editPassword);
         editUserName = findViewById(R.id.editEmail);
 
+        databaseHelper = new DatabaseHelper(this);
         goButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
 
@@ -107,17 +117,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void loginValidation() {
         if (Utils.inputValidation(editUserName)) {
             username.setErrorEnabled(false);
-
             if (Utils.inputValidation(editPassword)) {
                 SystemUtils.hideKeyBoard(this);
                 password.setErrorEnabled(false);
-
                 LoginRequest loginRequest = new LoginRequest(editUserName.getText().toString(), editPassword.getText().toString());
                 executeLogin(loginRequest);
-
-                successAlertBox();
-
-
             } else {
                 password.setError("Please enter your password");
             }
@@ -125,8 +129,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             username.setError("Please enter your username");
 
         }
-
     }
+
 
     private void successAlertBox() {
 
@@ -159,6 +163,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void executeLogin(LoginRequest loginRequest) {
+        circleLoader.setVisibility(View.VISIBLE);
 
         RetrofitService retrofitService = new RetrofitService();
         LoginApi productsApi = retrofitService.getRetrofit().create(LoginApi.class);
@@ -166,9 +171,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         productsApi.login(loginRequest).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body()!=null) {
                     LoginResponse loginResponse = response.body();
-                    getCustomer(loginResponse.getToken());
+
+                    JwtDecoder.decodeJWT(loginResponse);
+                    JwtDecoder.saveJwtToken(SignInActivity.this,loginResponse.getToken());
+                    getCustomer(loginResponse);
                 } else {
                     failureAlertBox();
                 }
@@ -182,21 +190,34 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void getCustomer(String customerId) {
+    private void getCustomer(LoginResponse loginResponse) {
         RetrofitService retrofitService = new RetrofitService();
         LoginApi loginApi = retrofitService.getRetrofit().create(LoginApi.class);
-        loginApi.getUser(customerId).enqueue(new Callback<User>() {
+
+        String authToken = "Bearer "+ loginResponse.getToken();
+
+        loginApi.getUser(loginResponse.getCustomerId(),authToken).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                circleLoader.setVisibility(View.GONE);
                 User user = response.body();
-                boolean registered = databaseHelper.createSession(user.getId(), user.getEmail(), user.getPassword(), user.getName(), user.getContactNo());
-                if (registered) {
-                    successAlertBox();
+                try {
+                    boolean registered = databaseHelper.createSession(user.getId(), user.getEmail(), user.getPassword(), user.getName(), user.getContactNo());
+                    if (registered) {
+                        successAlertBox();
+                    } else {
+                        failureAlertBox();
+                    }
+                } catch (Exception e){
+                    System.out.println(e.getMessage());
+                    failureAlertBox();
                 }
+
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                circleLoader.setVisibility(View.GONE);
                 failureAlertBox();
             }
         });

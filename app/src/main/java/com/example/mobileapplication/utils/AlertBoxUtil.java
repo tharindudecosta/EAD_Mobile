@@ -81,6 +81,24 @@ public class AlertBoxUtil {
         dialog.show();
     }
 
+    public static void showSignOutAlertBox(Context context, String message, DialogCallback callback) {
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.alert_signout);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+
+        Button okButton = dialog.findViewById(R.id.okButton);
+
+        okButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            if (callback != null) {
+                callback.onOkClick();
+            }
+        });
+
+        dialog.show();
+    }
+
 
     public interface DialogCallback {
         void onOkClick();

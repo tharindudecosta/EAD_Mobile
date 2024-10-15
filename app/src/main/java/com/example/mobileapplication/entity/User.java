@@ -1,7 +1,7 @@
 package com.example.mobileapplication.entity;
 
 public class User {
-    private String _id;
+    private String id;
     private String name;
     private String nic;
     private String email;
@@ -11,8 +11,9 @@ public class User {
     private boolean isActive;
     private String password;
 
-    public User(String _id, String name, String nic, String email, String contactNo, String role, String gender, boolean isActive, String password) {
-        this._id = _id;
+
+    public User(String id, String name, String nic, String email, String contactNo, String role, String gender, boolean isActive, String password) {
+        this.id = id;
         this.name = name;
         this.nic = nic;
         this.email = email;
@@ -25,11 +26,11 @@ public class User {
 
     // Getters and Setters
     public String getId() {
-        return _id;
+        return id;
     }
 
-    public void setId(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -99,7 +100,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "_id='" + _id + '\'' +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", nic='" + nic + '\'' +
                 ", email='" + email + '\'' +

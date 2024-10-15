@@ -42,8 +42,9 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         Product product = productList.get(position);
 
 
-        holder.titleTextView.setText(product.getTitle());
+        holder.titleTextView.setText(product.getProductName());
         holder.priceTextView.setText("$" + String.format("%.2f", product.getUnitPrice()));
+        holder.catergoryTV.setText(product.getCategory());
         holder.productImageView.setImageResource(product.getImageResource());
 
 
@@ -55,7 +56,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         });
 
         holder.addToCartImageButton.setOnClickListener(v -> {
-            Toast.makeText(context, product.getTitle() + " added to cart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, product.getProductName() + " added to cart", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -66,7 +67,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
     public static class HomeProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView titleTextView, priceTextView;
+        TextView titleTextView, priceTextView, catergoryTV;
         ImageView productImageView;
         ImageButton addToCartImageButton;
 
@@ -74,6 +75,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             super(itemView);
             titleTextView = itemView.findViewById(R.id.product_name_tv);
             priceTextView = itemView.findViewById(R.id.product_price_tv);
+            catergoryTV = itemView.findViewById(R.id.product_cat_tv);
             productImageView = itemView.findViewById(R.id.product_image_view);
             addToCartImageButton = itemView.findViewById(R.id.add_to_cart_img_btn);
         }

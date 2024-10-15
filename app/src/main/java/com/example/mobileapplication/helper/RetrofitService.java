@@ -7,12 +7,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import javax.net.ssl.*;
 import java.security.cert.CertificateException;
 
+/*
+*https://www.youtube.com/watch?v=lz5lPAdA3fQ&t=258s&pp=ygUZcmV0cm9maXQgYW5kcm9pZCB0dXRvcmlhbA%3D%3D
+*https://www.youtube.com/playlist?list=PLoYPuzsyna1k-GZfhW8D2UHPKzEQ6bdlW
+* */
+
 public class RetrofitService {
     private Retrofit retrofit;
 
-    public final static String BACKEND_PORT = "44309";
-    public final static String EMULATOR_IP_ADDRESS = "10.0.2.2";
-    public final static String LH_IP_ADDRESS = "127.0.0.1";
+    private static String TUNNEL_URL = "https://5212-2402-4000-21c3-44f0-bda2-86b-7e24-e494.ngrok-free.app/";
+    private static String LOCAL_URL = "http://10.0.2.2:1000/";
 
     public RetrofitService() {
         initializeRetrofit();
@@ -20,8 +24,7 @@ public class RetrofitService {
 
     private void initializeRetrofit() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + EMULATOR_IP_ADDRESS + ":" + BACKEND_PORT+"/")
-                .client(getUnsafeOkHttpClient())
+                .baseUrl(LOCAL_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

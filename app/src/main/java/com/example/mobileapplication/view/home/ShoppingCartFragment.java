@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.mobileapplication.R;
@@ -39,15 +40,18 @@ public class ShoppingCartFragment extends Fragment {
     private TextView textView;
     private View circleLoader;
     private DatabaseHelper databaseHelper;
+    private Button checkOutBtn;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shopping_cart, container, false);
+        databaseHelper = new DatabaseHelper(getContext());
 
         recyclerView = view.findViewById(R.id.cart_products_recycler_view);
         textView = view.findViewById(R.id.cart_empty_text_view);
         circleLoader = view.findViewById(R.id.circular_loader_layout);
+        checkOutBtn = view.findViewById(R.id.cart_check_out_btn);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         circleLoader.setVisibility(View.VISIBLE);
@@ -57,18 +61,9 @@ public class ShoppingCartFragment extends Fragment {
         cartAdapter = new CartAdapter(sampleData, Constants.CART_VIEW);
         recyclerView.setAdapter(cartAdapter);
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getCart();
+        getCart();
 
-                if (sampleData.isEmpty()){
-                    textView.setVisibility(View.VISIBLE);
-                }
-                circleLoader.setVisibility(View.GONE);
 
-            }
-        }, 2000);
 
         return view;
     }
@@ -77,6 +72,11 @@ public class ShoppingCartFragment extends Fragment {
     private void getCart(){
         List<CartItem> cartItems = databaseHelper.getAllCartItems();
         sampleData.addAll(cartItems);
+        if (sampleData.isEmpty()){
+            textView.setVisibility(View.VISIBLE);
+            checkOutBtn.setVisibility(View.GONE);
+        }
+        circleLoader.setVisibility(View.GONE);
         cartAdapter.notifyDataSetChanged();
 
     }

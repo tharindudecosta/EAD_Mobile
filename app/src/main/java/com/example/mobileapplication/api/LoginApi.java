@@ -8,6 +8,7 @@ import com.example.mobileapplication.entity.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -20,5 +21,5 @@ public interface LoginApi {
     Call<RegisterRequest> Register(@Body RegisterRequest request);
 
     @GET("api/User/{id}")
-    Call<User> getUser(@Path("id") String customerId);
+    Call<User> getUser(@Path("id") String customerId, @Header("Authorization") String authToken);
 }

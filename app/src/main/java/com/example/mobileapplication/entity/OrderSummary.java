@@ -3,36 +3,49 @@ package com.example.mobileapplication.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderSummary implements Parcelable {
 
-    private String orderId;
+    private String id;
     private String orderDate;
     private String orderStatus;
-    private int noOfItems;
+    private int numberOfItems;
     private double totalPrice;
+
+    private String customerId;
+    private List<String> productIds;
+    private String deliveryDate;
+    private boolean isActive;
+    private List<Product> productList;
 
     private List<CartItem> cartItems;
 
-    public OrderSummary(String orderId, String orderDate, String orderStatus, int noOfItems, double totalPrice, List<CartItem> cartItems) {
-        this.orderId = orderId;
+    // Constructor
+    public OrderSummary(String id, String orderDate, String orderStatus, int numberOfItems, double totalPrice,
+                        String customerId, List<String> productIds, String deliveryDate, boolean isActive,
+                        List<Product> productList, List<CartItem> cartItems) {
+        this.id = id;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
-        this.noOfItems = noOfItems;
+        this.numberOfItems = numberOfItems;
         this.totalPrice = totalPrice;
-        this.cartItems = cartItems;
+        this.customerId = customerId;
+        this.productIds = productIds != null ? productIds : new ArrayList<>();
+        this.deliveryDate = deliveryDate;
+        this.isActive = isActive;
+        this.productList = productList != null ? productList : new ArrayList<>();
+        this.cartItems = cartItems != null ? cartItems : new ArrayList<>();
     }
 
-    public String getOrderId() {
-        return orderId;
+    // Getters and Setters for all fields
+    public String getId() {
+        return id;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getOrderDate() {
@@ -51,12 +64,12 @@ public class OrderSummary implements Parcelable {
         this.orderStatus = orderStatus;
     }
 
-    public int getNoOfItems() {
-        return noOfItems;
+    public int getNumberOfItems() {
+        return numberOfItems;
     }
 
-    public void setNoOfItems(int noOfItems) {
-        this.noOfItems = noOfItems;
+    public void setNumberOfItems(int numberOfItems) {
+        this.numberOfItems = numberOfItems;
     }
 
     public double getTotalPrice() {
@@ -67,26 +80,67 @@ public class OrderSummary implements Parcelable {
         this.totalPrice = totalPrice;
     }
 
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public List<String> getProductIds() {
+        return productIds;
+    }
+
+    public void setProductIds(List<String> productIds) {
+        this.productIds = productIds != null ? productIds : new ArrayList<>();
+    }
+
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList != null ? productList : new ArrayList<>();
+    }
+
     public List<CartItem> getCartItems() {
         return cartItems;
     }
 
     public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+        this.cartItems = cartItems != null ? cartItems : new ArrayList<>();
     }
-
 
     // Parcelable implementation
     protected OrderSummary(Parcel in) {
-        orderId = in.readString();
+        id = in.readString();
         orderDate = in.readString();
         orderStatus = in.readString();
-        noOfItems = in.readInt();
+        numberOfItems = in.readInt();
         totalPrice = in.readDouble();
-
-        // Read the list of CartItems
-        cartItems = new ArrayList<>();
-        in.readList(cartItems, CartItem.class.getClassLoader());
+        customerId = in.readString();
+        productIds = in.createStringArrayList(); // Reading List of Strings
+        deliveryDate = in.readString();
+        isActive = in.readByte() != 0; // Read boolean as byte
+        productList = in.createTypedArrayList(Product.CREATOR); // Reading List of Products
+        cartItems = in.createTypedArrayList(CartItem.CREATOR); // Reading List of CartItems
     }
 
     public static final Creator<OrderSummary> CREATOR = new Creator<OrderSummary>() {
@@ -103,19 +157,21 @@ public class OrderSummary implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(orderId);
+        dest.writeString(id);
         dest.writeString(orderDate);
         dest.writeString(orderStatus);
-        dest.writeInt(noOfItems);
+        dest.writeInt(numberOfItems);
         dest.writeDouble(totalPrice);
-
-        // Write the list of CartItems
-        dest.writeList(cartItems);
+        dest.writeString(customerId);
+        dest.writeStringList(productIds); // Writing List of Strings
+        dest.writeString(deliveryDate);
+        dest.writeByte((byte) (isActive ? 1 : 0)); // Writing boolean as byte
+        dest.writeTypedList(productList); // Writing List of Products
+        dest.writeTypedList(cartItems); // Writing List of CartItems
     }
 
     @Override
     public int describeContents() {
         return 0;
     }
-
 }

@@ -1,7 +1,6 @@
 package com.example.mobileapplication.api;
 
 import com.example.mobileapplication.entity.OrderSummary;
-import com.example.mobileapplication.entity.Product;
 
 import java.util.List;
 
@@ -15,6 +14,9 @@ public interface OrderApi {
 
     @GET("api/Order/customer/{id}")
     Call<List<OrderSummary>> getCustomerOrders(@Path("id") String customerId);
+
+    @GET("api/Order")
+    Call<List<OrderSummary>> getAllOrders();
 
     @GET("api/Order/{id}")
     Call<OrderSummary> getOrderById(@Path("id") String orderId);

@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobileapplication.R;
+import com.example.mobileapplication.helper.DatabaseHelper;
+import com.example.mobileapplication.view.main.MainActivity;
 import com.example.mobileapplication.view.signin.SignInActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -25,6 +27,8 @@ public class SplashActivity extends AppCompatActivity {
     private ImageView appLogo;
     private TextView appTitle;
     private TextView tagLine;
+
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,9 @@ public class SplashActivity extends AppCompatActivity {
         appLogo.setAnimation(rightToCenter);
         appTitle.setAnimation(topAnim);
         tagLine.setAnimation(bottomAnim);
+
+        databaseHelper = new DatabaseHelper(SplashActivity.this);
+
     }
 
     private void initAnimation() {
@@ -78,13 +85,19 @@ public class SplashActivity extends AppCompatActivity {
             pairs[1] = new Pair<View, String>(appTitle, getString(R.string.hello_there_welcome_back));
             pairs[2] = new Pair<View, String>(tagLine, getString(R.string.sign_in_to_continue));
 
-            Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
 
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
-                    SplashActivity.this, pairs);
-            startActivity(intent, options.toBundle());
 
-            onBackPressed();
+            if(databaseHelper.isSessionActive()){
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                        SplashActivity.this, pairs);
+                startActivity(intent, options.toBundle());
+
+                onBackPressed();
+            }
         }
     }
 }

@@ -19,13 +19,13 @@
 
         <TextView
             android:id="@+id/price_items_label_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MyTheme.Body1"
             android:textColor="@color/dark_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Items(3)" />
+            android:text="@string/order_summary_items_label" />
 
         <TextView
             android:id="@+id/price_items_amount_tv"
@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/price_items_label_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/price_items_label_tv"
-            tools:text="$123.45" />
+            tools:text="$150.00" />
 
         <TextView
             android:id="@+id/price_shipping_label_tv"
@@ -117,6 +117,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/price_total_label_tv"
             tools:text="$123.45" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

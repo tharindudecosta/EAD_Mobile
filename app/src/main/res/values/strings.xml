@@ -19,6 +19,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
     <string name="sign_up">Sign up</string>
+    <string name="sign_out">Sign out</string>
     <string name="ok">OK</string>
     <string name="enter">enter</string>
     <string name="cancel">Cancel</string>
@@ -48,6 +49,7 @@
     <string name="otp_fragment_label">Otp Fragment</string>
     <string name="signup_welcome_hello">Hello,</string>
     <string name="signup_welcome_text">Sign Up!</string>
+    <string name="signout_text">Sign Out ?</string>
     <string name="signup_name_hint">USER NAME</string>
     <string name="signup_mobile_hint">MOBILE</string>
     <string name="signup_password_hint">PASSWORD</string>

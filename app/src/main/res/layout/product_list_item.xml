@@ -55,10 +55,23 @@
             app:layout_constraintTop_toBottomOf="@id/product_name_tv" />
 
         <TextView
+            android:id="@+id/product_cat_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_rating_bar"
+            tools:text="catergory" />
+
+        <TextView
             android:id="@+id/product_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
             android:textColor="@color/blue_accent_300"
             android:textSize="16sp"

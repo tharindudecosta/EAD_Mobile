@@ -15,6 +15,11 @@ import com.example.mobileapplication.entity.CartItem;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+* https://youtu.be/9t8VVWebRFM
+*
+*
+* */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) {
@@ -24,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE userSession(sessionId INTEGER PRIMARY KEY AUTOINCREMENT, customerId TEXT,email TEXT, password TEXT, fullName TEXT, phoneNo TEXT,)");
+        sqLiteDatabase.execSQL("CREATE TABLE userSession(sessionId INTEGER PRIMARY KEY AUTOINCREMENT, customerId TEXT,email TEXT, password TEXT, fullName TEXT, phoneNo TEXT)");
         sqLiteDatabase.execSQL("CREATE TABLE cartItems(cartItemId TEXT PRIMARY KEY, title TEXT, totalPrice REAL, quantity INTEGER, imageResource INTEGER)");
 
     }
@@ -140,5 +145,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cartItemList;
     }
 
+    public boolean clearSessionTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete("userSession", null, null);  // This deletes all rows in the userSession table
+
+        return result > 0;
+    }
+
+    public boolean isSessionActive() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM userSession LIMIT 1"; // Query to get one session entry
+        Cursor cursor = db.rawQuery(query, null);
+
+        boolean hasSession = cursor.getCount() > 0; // If cursor has at least one row, session exists
+
+        cursor.close(); // Close cursor to prevent memory leaks
+        return hasSession;
+    }
 
 }

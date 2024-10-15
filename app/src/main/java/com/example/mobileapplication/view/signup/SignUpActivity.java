@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.api.LoginApi;
-import com.example.mobileapplication.entity.LoginRequest;
-import com.example.mobileapplication.entity.RegisterRequest;
 import com.example.mobileapplication.entity.RegisterRequest;
 import com.example.mobileapplication.helper.DatabaseHelper;
 import com.example.mobileapplication.helper.RetrofitService;
@@ -146,12 +143,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    private void executeRegister(RegisterRequest loginRequest) {
+    private void executeRegister(RegisterRequest registerRequest) {
 
         RetrofitService retrofitService = new RetrofitService();
         LoginApi productsApi = retrofitService.getRetrofit().create(LoginApi.class);
 
-        productsApi.Register(loginRequest).enqueue(new Callback<RegisterRequest>() {
+        productsApi.Register(registerRequest).enqueue(new Callback<RegisterRequest>() {
             @Override
             public void onResponse(Call<RegisterRequest> call, Response<RegisterRequest> response) {
                 if (response.isSuccessful()) {

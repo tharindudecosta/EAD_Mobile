@@ -15,7 +15,6 @@ import com.example.mobileapplication.entity.OrderSummary;
 import com.example.mobileapplication.interfaces.OnItemClickListener;
 import com.example.mobileapplication.view.order.OrderDetailsActivity;
 
-import java.io.Serializable;
 import java.util.List;
 
 /*
@@ -44,10 +43,12 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         OrderSummary order = orderList.get(position);
-        holder.orderId.setText(order.getOrderId());
-        holder.orderDate.setText(order.getOrderDate());
+
+        String orderIdDisplay = order.getId().substring(0, 4);
+        holder.orderId.setText("ORD_" + orderIdDisplay);
+        holder.orderDate.setText(order.getOrderDate().toString());
         holder.orderStatus.setText(order.getOrderStatus());
-        holder.noOfItems.setText(String.valueOf(order.getNoOfItems()));
+        holder.noOfItems.setText(String.valueOf(order.getProductIds().size()));
         holder.totalPrice.setText(String.format("$%.2f", order.getTotalPrice()));
 
         holder.recCard.setOnClickListener(new View.OnClickListener() {

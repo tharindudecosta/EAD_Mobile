@@ -46,13 +46,13 @@ public class HomeFragment extends Fragment {
 
     private boolean isImageClicked = false;
     View view;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initView();
-
         setupAutoScroll();
 
         carouselImageAdapter.setOnItemClickListener(new CarouselImageAdapter.OnItemClickListener() {
@@ -70,9 +70,6 @@ public class HomeFragment extends Fragment {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             loadProductData();
             loadAdImages();
-            if (!productList.isEmpty()) {
-                circleLoader.setVisibility(View.GONE);
-            }
         }, 500);
 
         return view;
@@ -94,6 +91,16 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void loadAdImages() {
+        imageList.add(R.drawable.ad_1);
+        imageList.add(R.drawable.ad_2);
+        imageList.add(R.drawable.ad_3);
+        imageList.add(R.drawable.ad_3);
+        imageList.add(R.drawable.ad_3);
+        imageList.add(R.drawable.ad_3);
+
+        carouselImageAdapter.notifyDataSetChanged();
+    }
     private void setupAutoScroll() {
         handler = new Handler();
         runnable = new Runnable() {
@@ -105,12 +112,10 @@ public class HomeFragment extends Fragment {
                     } else {
                         scrollPosition++;
                     }
-
                     // Smooth scrolling
                     SmoothScroller smoothScroller = new SmoothScroller(getContext());
                     smoothScroller.setTargetPosition(scrollPosition);
                     imageRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
-
                     imageRecyclerView.smoothScrollToPosition(scrollPosition);
                     handler.postDelayed(this, 3000);
                 }
@@ -118,7 +123,6 @@ public class HomeFragment extends Fragment {
         };
         handler.postDelayed(runnable, 3000);
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -135,25 +139,11 @@ public class HomeFragment extends Fragment {
     private void startAutoScroll() {
         handler.postDelayed(runnable, 3000);
     }
-
     private void stopAutoScroll() {
         if (handler != null && runnable != null) {
             handler.removeCallbacks(runnable);
         }
     }
-
-
-    private void loadAdImages() {
-        imageList.add(R.drawable.ad_1);
-        imageList.add(R.drawable.ad_2);
-        imageList.add(R.drawable.ad_3);
-        imageList.add(R.drawable.ad_3);
-        imageList.add(R.drawable.ad_3);
-        imageList.add(R.drawable.ad_3);
-
-        carouselImageAdapter.notifyDataSetChanged();
-    }
-
 
     private void loadProductData() {
 
@@ -165,6 +155,15 @@ public class HomeFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 if(response.body()!=null) {
                     productList.addAll(response.body());
+                    circleLoader.setVisibility(View.GONE);
+
+                    for(Product product:productList){
+                        product.setImageResource(R.drawable.ad_3);
+                    }
+
+                    if (!productList.isEmpty()) {
+
+                    }
                     homeProductAdapter.notifyDataSetChanged();
                 }
             }

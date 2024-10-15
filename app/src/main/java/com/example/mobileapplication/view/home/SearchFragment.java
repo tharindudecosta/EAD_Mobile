@@ -19,7 +19,6 @@ import com.example.mobileapplication.api.ProductApi;
 import com.example.mobileapplication.entity.Product;
 import com.example.mobileapplication.helper.RetrofitService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -99,7 +98,7 @@ public class SearchFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 if(response.body()!=null) {
                     for (Product product:response.body()){
-                        dataList.add(product.getTitle());
+                        dataList.add(product.getProductName());
                         adapter.notifyDataSetChanged();
 
                     }

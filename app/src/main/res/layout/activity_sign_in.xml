@@ -8,6 +8,17 @@
     android:padding="16dp"
     tools:context=".view.signin.SignInActivity">
 
+    <include
+        android:id="@+id/circular_loader_layout"
+        layout="@layout/layout_circular_loader"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <ImageView
         android:id="@+id/logo_image"
         android:layout_width="@dimen/app_logo_height"

@@ -4,12 +4,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobileapplication.R;
+import com.example.mobileapplication.constants.Constants;
 import com.example.mobileapplication.entity.CartItem;
 
 import java.util.List;
@@ -40,6 +42,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.quantityTextView.setText(String.valueOf(cartItem.getQuantity()));
         holder.productImageView.setImageResource(cartItem.getImageResource());
 
+        if(currentView.equals(Constants.ORDER_VIEW)){
+            holder.productDeleteBtn.setVisibility(View.GONE);
+            holder.productQuantityBtns.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -51,6 +58,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         TextView titleTextView, priceTextView, quantityTextView;
         ImageView productImageView;
+        ImageView productDeleteBtn;
+        LinearLayout productQuantityBtns;
         View circleLoader;
 
         public CartViewHolder(@NonNull View itemView) {
@@ -59,6 +68,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             priceTextView = itemView.findViewById(R.id.cart_product_price_tv);
             quantityTextView = itemView.findViewById(R.id.cart_product_quantity_text_View);
             productImageView = itemView.findViewById(R.id.product_image_view);
+            productDeleteBtn = itemView.findViewById(R.id.cart_product_delete_btn);
+            productQuantityBtns = itemView.findViewById(R.id.cart_product_quantity_buttons_layout);
 //            circleLoader = itemView.findViewById(R.id.loader_layout);
         }
     }

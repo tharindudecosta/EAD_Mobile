@@ -6,34 +6,42 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Product implements Parcelable {
-    private String productId;
-    private String title;
-    private double unitPrice;
-    private int quantity;
-    private int imageResource;
+    private String id;            // Matches "id" from JSON
+    private String productName;    // Matches "productName" from JSON
+    private double unitPrice;      // Matches "unitPrice" from JSON
+    private String category;       // Matches "category" from JSON
+    private String vendor;         // Matches "vendor" from JSON
+    private boolean isActive;      // Matches "isActive" from JSON
+    private int quantity;          // Added for "quantity"
+    private int imageResource;     // Added for "imageResource"
 
-    public Product(String productId, String title, double unitPrice, int quantity, int imageResource) {
-        this.productId = productId;
-        this.title = title;
+    // Constructor
+    public Product(String id, String productName, double unitPrice, String category, String vendor, boolean isActive, int quantity, int imageResource) {
+        this.id = id;
+        this.productName = productName;
         this.unitPrice = unitPrice;
+        this.category = category;
+        this.vendor = vendor;
+        this.isActive = isActive;
         this.quantity = quantity;
         this.imageResource = imageResource;
     }
 
-    public String getProductId() {
-        return productId;
+    // Getters and Setters
+    public String getId() {
+        return id;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public double getUnitPrice() {
@@ -44,6 +52,30 @@ public class Product implements Parcelable {
         this.unitPrice = unitPrice;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -52,7 +84,7 @@ public class Product implements Parcelable {
         this.quantity = quantity;
     }
 
-    public Integer getImageResource() {
+    public int getImageResource() {
         return imageResource;
     }
 
@@ -62,10 +94,14 @@ public class Product implements Parcelable {
 
     /*********************/
 
+    // Parcelable implementation
     protected Product(Parcel in) {
-        productId = in.readString();
-        title = in.readString();
+        id = in.readString();
+        productName = in.readString();
         unitPrice = in.readDouble();
+        category = in.readString();
+        vendor = in.readString();
+        isActive = in.readByte() != 0; // isActive is a boolean, so we use a byte (0 or 1)
         quantity = in.readInt();
         imageResource = in.readInt();
     }
@@ -77,9 +113,12 @@ public class Product implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeString(productId);
-        parcel.writeString(title);
+        parcel.writeString(id);
+        parcel.writeString(productName);
         parcel.writeDouble(unitPrice);
+        parcel.writeString(category);
+        parcel.writeString(vendor);
+        parcel.writeByte((byte) (isActive ? 1 : 0)); // Write isActive as a byte
         parcel.writeInt(quantity);
         parcel.writeInt(imageResource);
     }

@@ -1,17 +1,10 @@
 package com.example.mobileapplication.view.order;
 
-import static java.security.AccessController.getContext;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +13,8 @@ import com.example.mobileapplication.adapter.CartAdapter;
 import com.example.mobileapplication.constants.Constants;
 import com.example.mobileapplication.entity.CartItem;
 import com.example.mobileapplication.entity.OrderSummary;
+import com.example.mobileapplication.entity.Product;
+import com.example.mobileapplication.utils.Utils;
 
 import java.util.List;
 
@@ -41,15 +36,25 @@ public class OrderDetailsActivity extends AppCompatActivity {
         order_details_pro_label_tv = findViewById(R.id.order_details_pro_label_tv);
         order_details_pro_recycler_view = findViewById(R.id.order_details_pro_recycler_view);
 
+//        private String id;
+//        private String orderDate;
+//        private String orderStatus;
+//        private int numberOfItems;
+//        private double totalPrice;
+//
+//        private String customerId;
+//        private List<String> productIds;
+//        private String deliveryDate;
+//        private boolean isActive;
+//        private List<Product> productList;
+//
+//        private List<CartItem> cartItems;
+
+
         OrderSummary order = getIntent().getParcelableExtra("Order");
 
-        if (order != null) {
-            System.out.println(order.getOrderId());
-            System.out.println(order.getOrderDate());
-            System.out.println(order.getCartItems().get(0).getTitle());
-        }
-
-        order_details_pro_label_tv.setText(order.getOrderId());
+        String orderIdDisplay = order.getId().substring(0, 4);
+        order_details_pro_label_tv.setText("ORD_" + orderIdDisplay);
 
         order_details_pro_recycler_view.setLayoutManager(new LinearLayoutManager(OrderDetailsActivity.this));
 
@@ -57,28 +62,27 @@ public class OrderDetailsActivity extends AppCompatActivity {
         order_details_pro_recycler_view.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
-// In your activity or fragment after inflating the main layout
         View shippingLayout = findViewById(R.id.order_details_shipping_add_layout);
 
         TextView addressTextView = shippingLayout.findViewById(R.id.ship_add_value_tv);
         addressTextView.setText("123 Main St, New York, NY");
 
         TextView orderDateTextView = shippingLayout.findViewById(R.id.ship_date_value_tv);
-        orderDateTextView.setText("December 01, 2022");
+        orderDateTextView.setText(Utils.convertToDateString(order.getOrderDate()));
 
         TextView deliveryDateTextView = shippingLayout.findViewById(R.id.ship_curr_status_value_tv);
-        deliveryDateTextView.setText("DELIVERED ON January 01, 2023");
+        deliveryDateTextView.setText(order.getOrderStatus());
 
         View paymentLayout = findViewById(R.id.order_details_payment_layout);
 
         TextView itemPriceTextView = paymentLayout.findViewById(R.id.price_items_amount_tv);
-        itemPriceTextView.setText("Rs. 321");
+        itemPriceTextView.setText("$" + String.format("%.2f", order.getTotalPrice()));
 
         TextView shippingPriceTextView = paymentLayout.findViewById(R.id.price_shipping_amount_tv);
-        shippingPriceTextView.setText("Rs. 471");
+        shippingPriceTextView.setText("$ 47");
 
         TextView chargesPriceTextView = paymentLayout.findViewById(R.id.price_charges_amount_tv);
-        chargesPriceTextView.setText("Rs. 553");
+        chargesPriceTextView.setText("$. 553");
 
         TextView totalPriceTextView = paymentLayout.findViewById(R.id.price_total_amount_tv);
         totalPriceTextView.setText("Rs. 553");

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -81,8 +80,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
         product = getIntent().getParcelableExtra("product");
 
         if (product != null) {
-            productTitle.setText(product.getTitle());
-            productPrice.setText(String.valueOf(product.getUnitPrice()));
+            productTitle.setText(product.getProductName());
+            productPrice.setText("$" + String.format("%.2f", product.getUnitPrice()));
 
         }
     }
