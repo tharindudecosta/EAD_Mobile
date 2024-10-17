@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class CartItem implements Parcelable {
 
     private String cartItemId;
+    private String productId; // Added productId
     private String title;
     private double totalPrice;
     private int quantity;
@@ -15,10 +16,11 @@ public class CartItem implements Parcelable {
     }
 
     // Constructor
-    public CartItem(String cartItemId, String title, double price, int quantity, int imageResource) {
+    public CartItem(String cartItemId, String productId, String title, double totalPrice, int quantity, int imageResource) {
         this.cartItemId = cartItemId;
+        this.productId = productId; // Added productId to constructor
         this.title = title;
-        this.totalPrice = price;
+        this.totalPrice = totalPrice;
         this.quantity = quantity;
         this.imageResource = imageResource;
     }
@@ -29,6 +31,14 @@ public class CartItem implements Parcelable {
 
     public void setCartItemId(String cartItemId) {
         this.cartItemId = cartItemId;
+    }
+
+    public String getProductId() {
+        return productId; // Getter for productId
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId; // Setter for productId
     }
 
     public String getTitle() {
@@ -63,10 +73,10 @@ public class CartItem implements Parcelable {
         this.imageResource = imageResource;
     }
 
-
     // Parcelable implementation
     protected CartItem(Parcel in) {
         cartItemId = in.readString();
+        productId = in.readString();
         title = in.readString();
         totalPrice = in.readDouble();
         quantity = in.readInt();
@@ -88,6 +98,7 @@ public class CartItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(cartItemId);
+        dest.writeString(productId);
         dest.writeString(title);
         dest.writeDouble(totalPrice);
         dest.writeInt(quantity);
@@ -98,5 +109,4 @@ public class CartItem implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
 }

@@ -1,6 +1,10 @@
 package com.example.mobileapplication.view.reviews;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,18 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.ReviewAdapter; // Assuming you have this adapter class
-import com.example.mobileapplication.api.VendorApi;
+import com.example.mobileapplication.controller.CustomerReviewsController;
 import com.example.mobileapplication.entity.Review;
 import com.example.mobileapplication.entity.Vendor;
-import com.example.mobileapplication.helper.DatabaseHelper;
-import com.example.mobileapplication.helper.RetrofitService;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CustomerReviews extends AppCompatActivity {
 
@@ -28,62 +26,42 @@ public class CustomerReviews extends AppCompatActivity {
     private ReviewAdapter reviewAdapter;
     private List<Review> reviewList;
     private List<Vendor> vendorList;
-    private DatabaseHelper databaseHelper;
+    private CustomerReviewsController customerReviewsController;
+    private TextView reviewsEmptyTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_customer_reviews);
-        databaseHelper = new DatabaseHelper(this);
+
+        customerReviewsController = new CustomerReviewsController(this);
 
         reviewsRecyclerView = findViewById(R.id.allReviews);
         reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        reviewsEmptyTv = findViewById(R.id.reviews_empty_text_view);
+        reviewsEmptyTv.setVisibility(View.GONE);
+
         reviewList = new ArrayList<>();
         vendorList = new ArrayList<>();
-        getReviews();
-        reviewAdapter = new ReviewAdapter(reviewList);
+
+        reviewAdapter = new ReviewAdapter(reviewList, CustomerReviews.this);
         reviewsRecyclerView.setAdapter(reviewAdapter);
 
-    }
+        customerReviewsController.getVendors(vendorList, reviewList, reviewAdapter);
 
-    private void getReviews(){
-        String customerId = databaseHelper.getCustomerIdFromSession();
-        getVendors();
-        for (Vendor vendor:vendorList){
-            String vendorId = vendor.getId();
-            String vendorName = vendor.getName();
-            for(Review review:vendor.getReviews()){
-                if(review.getCustomerId().equals(customerId)){
-                    review.setVendorId(vendorId);
-                    review.setVendorName(vendorName);
-                    reviewList.add(review);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (reviewList.isEmpty() || reviewList == null) {
+                    reviewsEmptyTv.setVisibility(View.VISIBLE);
                 }
-            }
-        }
 
-        reviewAdapter.notifyDataSetChanged();
+            }
+        }, 2000);
 
     }
-
-    private void getVendors(){
-        RetrofitService retrofitService = new RetrofitService();
-        VendorApi vendorApi = retrofitService.getRetrofit().create(VendorApi.class);
-
-        vendorApi.getVendors().enqueue(new Callback<List<Vendor>>() {
-            @Override
-            public void onResponse(Call<List<Vendor>> call, Response<List<Vendor>> response) {
-                vendorList.addAll(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Vendor>> call, Throwable t) {
-
-            }
-        });
-
-    }
-
 
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.entity.OrderSummary;
 import com.example.mobileapplication.interfaces.OnItemClickListener;
+import com.example.mobileapplication.utils.Utils;
 import com.example.mobileapplication.view.order.OrderDetailsActivity;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
 
         String orderIdDisplay = order.getId().substring(0, 4);
         holder.orderId.setText("ORD_" + orderIdDisplay);
-        holder.orderDate.setText(order.getOrderDate().toString());
+        holder.orderDate.setText(Utils.convertToDateString(order.getOrderDate().toString()));
         holder.orderStatus.setText(order.getOrderStatus());
         holder.noOfItems.setText(String.valueOf(order.getProductIds().size()));
         holder.totalPrice.setText(String.format("$%.2f", order.getTotalPrice()));

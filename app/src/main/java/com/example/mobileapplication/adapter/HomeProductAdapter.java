@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.entity.Product;
+import com.example.mobileapplication.helper.DatabaseHelper;
 import com.example.mobileapplication.view.products.ProductDetailsActivity;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     private List<Product> productList;
     private Context context;
 
-    public HomeProductAdapter(List<Product> productList,Context context) {
+    public HomeProductAdapter(List<Product> productList, Context context) {
         this.productList = productList;
         this.context = context;
     }
@@ -56,7 +57,15 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         });
 
         holder.addToCartImageButton.setOnClickListener(v -> {
-            Toast.makeText(context, product.getProductName() + " added to cart", Toast.LENGTH_SHORT).show();
+            DatabaseHelper databaseHelper = new DatabaseHelper(context);
+
+            if (!databaseHelper.isProductInCart(product.getId())) {
+                product.setQuantity(1);
+                databaseHelper.addToCart(product);
+                Toast.makeText(context, product.getProductName() + " added to cart", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, product.getProductName() + " already in cart", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -78,6 +87,8 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             catergoryTV = itemView.findViewById(R.id.product_cat_tv);
             productImageView = itemView.findViewById(R.id.product_image_view);
             addToCartImageButton = itemView.findViewById(R.id.add_to_cart_img_btn);
+
+
         }
     }
 }

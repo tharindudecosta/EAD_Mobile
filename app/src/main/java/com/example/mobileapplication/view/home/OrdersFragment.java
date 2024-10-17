@@ -24,6 +24,7 @@ import com.example.mobileapplication.helper.DatabaseHelper;
 import com.example.mobileapplication.helper.RetrofitService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,6 +33,7 @@ import retrofit2.Response;
 
 public class OrdersFragment extends Fragment {
 
+    private View view;
     private RecyclerView recyclerView;
     private OrderSummaryAdapter orderSummaryAdapter;
     private List<OrderSummary> sampleData;
@@ -41,34 +43,23 @@ public class OrdersFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_orders, container, false);
+        view = inflater.inflate(R.layout.fragment_orders, container, false);
 
+        return view;
+    }
+
+    private void initView() {
         recyclerView = view.findViewById(R.id.order_all_orders_recycler_view);
         textView = view.findViewById(R.id.orders_empty_text_view);
         circleLoader = view.findViewById(R.id.circular_loader_layout);
         databaseHelper = new DatabaseHelper(getContext());
 
-        sampleData = new ArrayList<>();
         textView.setVisibility(View.GONE);
-
-        //        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                loadCustomerOrderData();
-//
-//                if (sampleData.isEmpty()) {
-//                    textView.setVisibility(View.VISIBLE);
-//                }
-//                circleLoader.setVisibility(View.GONE);
-//
-//            }
-//        }, 2000);
+        sampleData = new ArrayList<>();
 
         orderSummaryAdapter = new OrderSummaryAdapter(sampleData, getContext());
         recyclerView.setAdapter(orderSummaryAdapter);
         loadCustomerOrderData();
-
-        return view;
     }
 
     private void loadCustomerOrderData() {
@@ -79,7 +70,10 @@ public class OrdersFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<List<OrderSummary>> call, @NonNull Response<List<OrderSummary>> response) {
                 if(response.body()!=null) {
-                    cleanOrders(response.body());
+                    List<OrderSummary> orderSummaries = response.body();
+                    Collections.sort(orderSummaries, (p1, p2) -> p2.getOrderDate().compareTo(p1.getOrderDate()));
+
+                    cleanOrders(orderSummaries);
                     orderSummaryAdapter.notifyDataSetChanged();
                 }
             }
@@ -143,4 +137,10 @@ public class OrdersFragment extends Fragment {
         circleLoader.setVisibility(View.GONE);
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        initView();
+    }
+
 }

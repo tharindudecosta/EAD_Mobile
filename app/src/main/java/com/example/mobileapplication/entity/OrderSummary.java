@@ -22,6 +22,9 @@ public class OrderSummary implements Parcelable {
 
     private List<CartItem> cartItems;
 
+    public OrderSummary() {
+    }
+
     // Constructor
     public OrderSummary(String id, String orderDate, String orderStatus, int numberOfItems, double totalPrice,
                         String customerId, List<String> productIds, String deliveryDate, boolean isActive,
@@ -104,11 +107,11 @@ public class OrderSummary implements Parcelable {
         this.deliveryDate = deliveryDate;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 

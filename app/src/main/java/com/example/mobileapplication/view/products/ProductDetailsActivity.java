@@ -3,9 +3,12 @@ package com.example.mobileapplication.view.products;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.ProductImagesAdapter;
+import com.example.mobileapplication.constants.Constants;
+import com.example.mobileapplication.controller.ProductReviewsController;
+import com.example.mobileapplication.controller.ReviewManagementController;
 import com.example.mobileapplication.entity.Product;
+import com.example.mobileapplication.entity.Review;
+import com.example.mobileapplication.entity.Vendor;
+import com.example.mobileapplication.helper.DatabaseHelper;
 import com.example.mobileapplication.utils.AlertBoxUtil;
 import com.example.mobileapplication.view.image.ImageViewActivity;
 
@@ -28,6 +37,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private Product product;
     private RatingBar ratingBar;
     private float ratingDef;
+    private ProductReviewsController productReviewsController;
+    private ReviewManagementController reviewManagementController;
+    private Review review;
+    private Button addToCartBtn;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +57,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productTitle = findViewById(R.id.pro_details_title_tv);
         productPrice = findViewById(R.id.pro_details_price_tv);
         ratingBar = findViewById(R.id.pro_details_rating_bar);
+        addToCartBtn = findViewById(R.id.pro_details_add_cart_btn);
         ratingBar.setIsIndicator(false);
 
-        // get rating from DB
-        ratingDef = ratingBar.getRating();
+        databaseHelper = new DatabaseHelper(this);
+
+        productReviewsController = new ProductReviewsController(this);
+        reviewManagementController = new ReviewManagementController(this);
+        review = new Review();
 
         initData();
 
@@ -57,12 +75,26 @@ public class ProductDetailsActivity extends AppCompatActivity {
         imageRecycler.setAdapter(productImagesAdapter);
         loadImages();
 
-//        ratingBar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ratingAlertBox();
-//            }
-//        });
+        addToCartBtn.setOnClickListener(view -> {
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+            if (!databaseHelper.isProductInCart(product.getId())) {
+                product.setQuantity(1);
+                databaseHelper.addToCart(product);
+                Toast.makeText(this, product.getProductName() + " added to cart", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, product.getProductName() + " already in cart", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+        ratingBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ratingAlertBox();
+            }
+        });
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -83,6 +115,23 @@ public class ProductDetailsActivity extends AppCompatActivity {
             productTitle.setText(product.getProductName());
             productPrice.setText("$" + String.format("%.2f", product.getUnitPrice()));
 
+            productReviewsController.getVendorReviews(product, new ProductReviewsController.ReviewCallback() {
+                @Override
+                public void onReviewFetched(Review vendorReview, Vendor body) {
+                    String customerId = databaseHelper.getCustomerIdFromSession();
+                    review.setVendorId(body.getId());
+                    review.setCustomerId(customerId);
+                    if (vendorReview != null) {
+                        review = vendorReview;
+                        ratingBar.setRating(vendorReview.getRating());
+                        ratingDef = vendorReview.getRating();
+                    } else {
+                        review.setRating(0f);
+                        ratingBar.setRating(0f);
+                        ratingDef = 0f;
+                    }
+                }
+            });
         }
     }
 
@@ -107,20 +156,31 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     private void ratingAlertBox() {
-
         AlertBoxUtil.showRatingAlertBox(this, null, new AlertBoxUtil.RatingDialogCallback() {
             @Override
-            public void onOkClick(float rating) {
-
+            public void onOkClick(Review review,String reviewAction) {
                 // handle send to db
-                ratingBar.setRating(rating);
-                ratingDef = rating;
-            }
+                ratingBar.setRating(review.getRating());
+                ratingDef = review.getRating();
 
+                if(!review.getRating().equals(0f)){
+
+                    if(reviewAction.equals(Constants.REVIEW_CREATE)){
+                        reviewManagementController.createReview(review);
+
+                    }
+                    if(reviewAction.equals(Constants.REVIEW_UPDATE)){
+                        reviewManagementController.updateReview(review);
+
+                    }
+                }
+
+
+            }
             @Override
             public void onCancelClick() {
             }
-        },ratingDef);
+        },review);
     }
 
 }

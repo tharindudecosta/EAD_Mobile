@@ -47,7 +47,6 @@ public class SearchQueryAdapter extends RecyclerView.Adapter<SearchQueryAdapter.
         holder.itemView.setVisibility(View.GONE);
         holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));    }
 
-    // Filter method for SearchView
     public void filter(String query) {
         filteredList.clear();
         if (query.isEmpty()) {

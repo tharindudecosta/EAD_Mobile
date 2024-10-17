@@ -6,13 +6,16 @@ import android.os.Parcelable;
 public class Review implements Parcelable {
     private String reviewId;
     private String customerId;
-    private int rating;
+    private Float rating;
     private String comment;
     private String timestamp;
     private String vendorId;
     private String vendorName;
 
-    public Review(String reviewId, String customerId, int rating, String comment, String timestamp, String vendorId, String vendorName) {
+    public Review() {
+    }
+
+    public Review(String reviewId, String customerId, Float rating, String comment, String timestamp, String vendorId, String vendorName) {
         this.reviewId = reviewId;
         this.customerId = customerId;
         this.rating = rating;
@@ -39,11 +42,11 @@ public class Review implements Parcelable {
         this.customerId = customerId;
     }
 
-    public int getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 
@@ -83,7 +86,7 @@ public class Review implements Parcelable {
     protected Review(Parcel in) {
         reviewId = in.readString();
         customerId = in.readString();
-        rating = in.readInt();
+        rating = in.readFloat();
         comment = in.readString();
         timestamp = in.readString();
         vendorId = in.readString();
@@ -106,7 +109,7 @@ public class Review implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(reviewId);
         dest.writeString(customerId);
-        dest.writeInt(rating);
+        dest.writeFloat(rating);
         dest.writeString(comment);
         dest.writeString(timestamp);
         dest.writeString(vendorId);   // Writing vendorId

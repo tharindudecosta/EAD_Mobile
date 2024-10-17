@@ -172,12 +172,16 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body()!=null) {
+                    circleLoader.setVisibility(View.GONE);
+
                     LoginResponse loginResponse = response.body();
 
                     JwtDecoder.decodeJWT(loginResponse);
                     JwtDecoder.saveJwtToken(SignInActivity.this,loginResponse.getToken());
                     getCustomer(loginResponse);
                 } else {
+                    circleLoader.setVisibility(View.GONE);
+
                     failureAlertBox();
                 }
             }

@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import com.example.mobileapplication.R;
 import com.example.mobileapplication.adapter.SearchQueryAdapter;
+import com.example.mobileapplication.adapter.SearchQueryProductAdapter;
 import com.example.mobileapplication.api.ProductApi;
 import com.example.mobileapplication.entity.Product;
 import com.example.mobileapplication.helper.RetrofitService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,9 +30,10 @@ import retrofit2.Response;
 public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private SearchQueryAdapter adapter;
+//    private SearchQueryAdapter adapter;
+    private SearchQueryProductAdapter adapter;
     private SearchView searchView;
-    private List<String> dataList;
+    private List<Product> dataList;
     private TextView searchPageTopicTv;
 
     @Override
@@ -44,15 +47,24 @@ public class SearchFragment extends Fragment {
 
         searchView = view.findViewById(R.id.searchView);
 
+        dataList = new ArrayList<>();
+
         searchPageTopicTv = view.findViewById(R.id.searchPageTopicTv);
         searchPageTopicTv.setVisibility(View.VISIBLE);
 //        recyclerView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
 
         loadProductData();
 
-        // Set up Adapter
-        adapter = new SearchQueryAdapter(dataList);
+        adapter = new SearchQueryProductAdapter(dataList,getContext());
         recyclerView.setAdapter(adapter);
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyclerView.setVisibility(View.VISIBLE);
+                searchPageTopicTv.setVisibility(View.GONE);
+            }
+        });
 
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -98,7 +110,11 @@ public class SearchFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 if(response.body()!=null) {
                     for (Product product:response.body()){
-                        dataList.add(product.getProductName());
+//                        dataList.add(product.getProductName());
+//                        dataList.add(product.getProductName()+"2");
+//                        dataList.add(product.getProductName()+"3");
+                        product.setImageResource(R.drawable.ad_3);
+                        dataList.add(product);
                         adapter.notifyDataSetChanged();
 
                     }
@@ -106,8 +122,12 @@ public class SearchFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
+                System.out.println(t);
 
             }
         });
     }
+
+
+
 }

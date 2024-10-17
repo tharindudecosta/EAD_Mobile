@@ -31,8 +31,12 @@ import retrofit2.Response;
  *
  * */
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextInputEditText editEmail, editPassword, editFullName, editPhoneNumber;
+    private TextInputEditText editEmail;
+    private TextInputEditText editPassword;
+    private TextInputEditText editFullName;
+    private TextInputEditText editPhoneNumber;
     private TextInputLayout email, password, fullName, phoneNumber;
+    private View circleLoader;
 
     private Dialog dialog;
     private Button okButton;
@@ -59,6 +63,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         phoneNumber = findViewById(R.id.phoneNumber);
 
         databaseHelper = new DatabaseHelper(this);
+
+        circleLoader = findViewById(R.id.circular_loader_layout);
+        circleLoader.setVisibility(View.GONE);
 
         findViewById(R.id.alreadyHaveAccount).setOnClickListener(this);
         findViewById(R.id.signUpButton).setOnClickListener(this);
@@ -91,17 +98,20 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             password.setErrorEnabled(false);
         }
-
-
-        boolean registered = databaseHelper.insert(editEmail.getText().toString(),editPassword.getText().toString(),editFullName.getText().toString(),editPhoneNumber.getText().toString());
+        if (!Utils.isValidEmail(editEmail.getText().toString())) {
+            email.setError("Please enter valid email");
+            return;
+        } else {
+            email.setErrorEnabled(false);
+        }
 
         RegisterRequest request = new RegisterRequest();
         request.setEmail(editEmail.getText().toString());
         request.setPassword(editPassword.getText().toString());
         request.setName(editFullName.getText().toString());
         request.setContactNo(editPhoneNumber.getText().toString());
-        request.setNic("xxxxxxxxxxxxxxxxxxxx");
-        request.setGender("xxxxxxxxxxxxxxxxxxxx");
+        request.setNic("xxxxxxxxxx");
+        request.setGender("xxxx");
 
         executeRegister(request);
 
@@ -147,14 +157,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         RetrofitService retrofitService = new RetrofitService();
         LoginApi productsApi = retrofitService.getRetrofit().create(LoginApi.class);
+        circleLoader.setVisibility(View.VISIBLE);
 
         productsApi.Register(registerRequest).enqueue(new Callback<RegisterRequest>() {
             @Override
             public void onResponse(Call<RegisterRequest> call, Response<RegisterRequest> response) {
                 if (response.isSuccessful()) {
+                    circleLoader.setVisibility(View.GONE);
+
                     RegisterRequest registerResponse = response.body();
                     successAlertBox();
                 } else {
+                    circleLoader.setVisibility(View.GONE);
+
                     failureAlertBox();
                 }
             }

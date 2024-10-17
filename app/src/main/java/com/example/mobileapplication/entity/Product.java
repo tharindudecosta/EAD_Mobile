@@ -6,14 +6,14 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Product implements Parcelable {
-    private String id;            // Matches "id" from JSON
-    private String productName;    // Matches "productName" from JSON
-    private double unitPrice;      // Matches "unitPrice" from JSON
-    private String category;       // Matches "category" from JSON
-    private String vendor;         // Matches "vendor" from JSON
-    private boolean isActive;      // Matches "isActive" from JSON
-    private int quantity;          // Added for "quantity"
-    private int imageResource;     // Added for "imageResource"
+    private String id;
+    private String productName;
+    private double unitPrice;
+    private String category;
+    private String vendor;
+    private boolean isActive;
+    private int quantity = 1;
+    private int imageResource;
 
     // Constructor
     public Product(String id, String productName, double unitPrice, String category, String vendor, boolean isActive, int quantity, int imageResource) {

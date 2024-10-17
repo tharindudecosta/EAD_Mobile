@@ -4,8 +4,8 @@
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="hi_n_welcome_to_your_app">Hi,\nWelcome to your app</string>
-    <string name="your_app_tag_line">Your app tag line</string>
+    <string name="hi_n_welcome_to_your_app">Hi,\nWelcome to the app</string>
+    <string name="your_app_tag_line">U-Buy</string>
     <string name="forget_password">Forget Password?</string>
     <string name="username">Username</string>
     <string name="sign_in_to_continue">Sign In to continue</string>
@@ -23,6 +23,7 @@
     <string name="ok">OK</string>
     <string name="enter">enter</string>
     <string name="cancel">Cancel</string>
+    <string name="cancel_order">Cancel Order</string>
     <string name="try_again">Try Again</string>
 
     <string name="nav_bar_home">Home</string>
@@ -37,6 +38,7 @@
     <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="rate_seller">Rate Seller</string>
+    <string name="cancel_order_alert">Cancel this order ?</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

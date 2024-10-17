@@ -15,7 +15,7 @@ import java.security.cert.CertificateException;
 public class RetrofitService {
     private Retrofit retrofit;
 
-    private static String TUNNEL_URL = "https://5212-2402-4000-21c3-44f0-bda2-86b-7e24-e494.ngrok-free.app/";
+    private static String TUNNEL_URL = "https://27e9-2402-4000-b250-2d3d-8d89-c161-9950-d442.ngrok-free.app/";
     private static String LOCAL_URL = "http://10.0.2.2:1000/";
 
     public RetrofitService() {
@@ -24,7 +24,7 @@ public class RetrofitService {
 
     private void initializeRetrofit() {
         retrofit = new Retrofit.Builder()
-                .baseUrl(LOCAL_URL)
+                .baseUrl(TUNNEL_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

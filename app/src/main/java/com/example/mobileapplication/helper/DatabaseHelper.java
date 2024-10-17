@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.mobileapplication.entity.CartItem;
+import com.example.mobileapplication.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +27,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, "Userdata.db", null, 1);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE userSession(sessionId INTEGER PRIMARY KEY AUTOINCREMENT, customerId TEXT,email TEXT, password TEXT, fullName TEXT, phoneNo TEXT)");
-        sqLiteDatabase.execSQL("CREATE TABLE cartItems(cartItemId TEXT PRIMARY KEY, title TEXT, totalPrice REAL, quantity INTEGER, imageResource INTEGER)");
-
+        sqLiteDatabase.execSQL("CREATE TABLE cartItems(cartItemId INTEGER PRIMARY KEY AUTOINCREMENT,productId TEXT,title TEXT,totalPrice REAL,quantity INTEGER,imageResource INTEGER)");
     }
 
     @Override
@@ -101,14 +100,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return customerId;
     }
 
-    public boolean addToCart(String cartItemId, String title, double totalPrice, int quantity, int imageResource) {
+    public boolean addToCart(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("cartItemId", cartItemId);
-        values.put("title", title);
-        values.put("totalPrice", totalPrice);
-        values.put("quantity", quantity);
-        values.put("imageResource", imageResource);
+        values.put("productId", product.getId());
+        values.put("title", product.getProductName());
+        values.put("totalPrice", product.getUnitPrice());
+        values.put("quantity", product.getQuantity());
+        values.put("imageResource", product.getImageResource());
 
         long result = db.insertWithOnConflict("cartItems", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         return result != -1;
@@ -131,12 +130,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 String cartItemId = cursor.getString(cursor.getColumnIndex("cartItemId"));
+                String productId = cursor.getString(cursor.getColumnIndex("productId"));
                 String title = cursor.getString(cursor.getColumnIndex("title"));
                 double totalPrice = cursor.getDouble(cursor.getColumnIndex("totalPrice"));
                 int quantity = cursor.getInt(cursor.getColumnIndex("quantity"));
                 int imageResource = cursor.getInt(cursor.getColumnIndex("imageResource"));
 
-                CartItem item = new CartItem(cartItemId, title, totalPrice, quantity, imageResource);
+                CartItem item = new CartItem(cartItemId,productId, title, totalPrice, quantity, imageResource);
                 cartItemList.add(item);
             } while (cursor.moveToNext());
         }
@@ -151,6 +151,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return result > 0;
     }
+
+    public boolean isProductInCart(String productId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM cartItems WHERE productId = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{productId});
+
+        boolean isInCart = cursor.getCount() > 0;
+
+        cursor.close();
+        return isInCart;
+    }
+
 
     public boolean isSessionActive() {
         SQLiteDatabase db = this.getReadableDatabase();

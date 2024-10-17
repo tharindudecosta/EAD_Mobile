@@ -1,10 +1,13 @@
 package com.example.mobileapplication.utils;
 
+import android.os.Build;
 import android.util.Patterns;
 import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -33,6 +36,11 @@ public class Utils {
             return true;
         else
             return false;
+
+    }
+
+    public static boolean isValidEmail(String input) {
+        return Patterns.EMAIL_ADDRESS.matcher(input).matches();
 
     }
 
@@ -90,6 +98,15 @@ public class Utils {
             default:
                 return "th";
         }
+    }
+
+    public static String getCurrentDateTimeISO() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return DateTimeFormatter.ISO_INSTANT
+                    .withZone(ZoneOffset.UTC)
+                    .format(Instant.now());
+        }
+        return "";
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.mobileapplication.view.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +25,8 @@ import com.example.mobileapplication.entity.CartItem;
 import com.example.mobileapplication.entity.OrderSummary;
 import com.example.mobileapplication.helper.DatabaseHelper;
 import com.example.mobileapplication.helper.RetrofitService;
+import com.example.mobileapplication.utils.Utils;
+import com.example.mobileapplication.view.reviews.CustomerReviews;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,15 +58,39 @@ public class ShoppingCartFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         circleLoader.setVisibility(View.VISIBLE);
+        databaseHelper = new DatabaseHelper(getContext());
 
 
         sampleData = new ArrayList<>();
-        cartAdapter = new CartAdapter(sampleData, Constants.CART_VIEW);
+        cartAdapter = new CartAdapter(sampleData, Constants.CART_VIEW,getContext());
         recyclerView.setAdapter(cartAdapter);
 
         getCart();
 
+        checkOutBtn.setOnClickListener(v -> {
 
+            double totalPrice = 0f;
+            List<String> productList = new ArrayList<>();
+
+            for(CartItem cartItem : sampleData){
+                totalPrice = totalPrice + cartItem.getTotalPrice();
+                productList.add(cartItem.getProductId());
+            }
+            String customerId = databaseHelper.getCustomerIdFromSession();
+
+            OrderSummary orderSummary = new OrderSummary();
+            orderSummary.setCustomerId(customerId);
+            orderSummary.setOrderStatus(Constants.ORDER_PROCESSING_STATUS);
+            orderSummary.setIsActive(true);
+            orderSummary.setOrderDate(Utils.getCurrentDateTimeISO());
+            orderSummary.setDeliveryDate(Utils.getCurrentDateTimeISO());
+            orderSummary.setTotalPrice(totalPrice);
+            orderSummary.setProductIds(productList);
+
+
+
+            createOrder(orderSummary);
+        });
 
         return view;
     }
@@ -77,22 +104,25 @@ public class ShoppingCartFragment extends Fragment {
             checkOutBtn.setVisibility(View.GONE);
         }
         circleLoader.setVisibility(View.GONE);
+
         cartAdapter.notifyDataSetChanged();
 
     }
 
-    private void createOrder(){
+    private void createOrder(OrderSummary orderSummary){
         RetrofitService retrofitService = new RetrofitService();
         OrderApi orderApi = retrofitService.getRetrofit().create(OrderApi.class);
 
-        orderApi.createCustomerOrder().enqueue(new Callback<OrderSummary>() {
+        orderApi.createCustomerOrder(orderSummary).enqueue(new Callback<OrderSummary>() {
             @Override
             public void onResponse(Call<OrderSummary> call, Response<OrderSummary> response) {
+                System.out.println(response.body().getId());
 
             }
 
             @Override
             public void onFailure(Call<OrderSummary> call, Throwable t) {
+                System.out.println(t);
 
             }
         });

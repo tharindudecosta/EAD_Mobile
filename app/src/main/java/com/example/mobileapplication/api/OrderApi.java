@@ -5,6 +5,7 @@ import com.example.mobileapplication.entity.OrderSummary;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -22,10 +23,10 @@ public interface OrderApi {
     Call<OrderSummary> getOrderById(@Path("id") String orderId);
 
     @POST("api/Order")
-    Call<OrderSummary> createCustomerOrder();
+    Call<OrderSummary> createCustomerOrder(@Body OrderSummary orderSummary);
 
     @PUT("api/Order/{id}")
-    Call<OrderSummary> updateCustomerOrder(@Path("id") String orderId);
+    Call<OrderSummary> updateCustomerOrder(@Path("id") String orderId,@Body OrderSummary orderSummary);
 
 
 
