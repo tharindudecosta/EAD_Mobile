@@ -45,7 +45,8 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         OrderSummary order = orderList.get(position);
 
-        String orderIdDisplay = order.getId().substring(0, 4);
+        String orderIdDisplay = order.getId().substring(order.getId().length() - 4);
+
         holder.orderId.setText("ORD_" + orderIdDisplay);
         holder.orderDate.setText(Utils.convertToDateString(order.getOrderDate().toString()));
         holder.orderStatus.setText(order.getOrderStatus());

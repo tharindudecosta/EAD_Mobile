@@ -24,7 +24,7 @@ public class RetrofitService {
 
     private void initializeRetrofit() {
         retrofit = new Retrofit.Builder()
-                .baseUrl(TUNNEL_URL)
+                .baseUrl(LOCAL_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

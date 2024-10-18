@@ -151,6 +151,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return result > 0;
     }
+    public boolean clearCart() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete("cartItems", null, null);  // Deletes all rows in the cartItems table
+
+        return result > 0;  // Returns true if rows were deleted
+    }
 
     public boolean isProductInCart(String productId) {
         SQLiteDatabase db = this.getReadableDatabase();

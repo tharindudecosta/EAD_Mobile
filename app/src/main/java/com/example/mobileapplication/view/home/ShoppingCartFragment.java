@@ -118,6 +118,11 @@ public class ShoppingCartFragment extends Fragment {
             public void onResponse(Call<OrderSummary> call, Response<OrderSummary> response) {
                 System.out.println(response.body().getId());
 
+
+                databaseHelper.clearCart();
+                sampleData.clear();
+                cartAdapter.notifyDataSetChanged();
+
             }
 
             @Override

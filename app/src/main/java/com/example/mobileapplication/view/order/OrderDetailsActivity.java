@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -91,6 +92,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
         if (!order.getOrderStatus().equals(Constants.ORDER_PROCESSING_STATUS)) {
             cancelOrderBtn.setVisibility(View.GONE);
+            deliveryDateTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.testProfileColor));
+
         }
         cancelOrderBtn.setOnClickListener(view -> {
             orderCancellationAlertBox();

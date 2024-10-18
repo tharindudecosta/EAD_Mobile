@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class ProductDetailsActivity extends AppCompatActivity {
 
-    private TextView productTitle, productPrice,productCategory,productVendor;
+    private TextView productTitle, productPrice,productCategory,productVendor,pro_details_cat_display_tv,pro_details_vendor_display_tv;
     private RecyclerView imageRecycler;
     private ProductImagesAdapter productImagesAdapter;
     private ArrayList<Integer> imageList;
@@ -60,6 +60,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
         addToCartBtn = findViewById(R.id.pro_details_add_cart_btn);
         productCategory = findViewById(R.id.pro_details_cat_tv);
         productVendor = findViewById(R.id.pro_details_vendor_tv);
+
+        pro_details_cat_display_tv = findViewById(R.id.pro_details_cat_display_tv);
+        pro_details_cat_display_tv.setText("Category");
+
+        pro_details_vendor_display_tv = findViewById(R.id.pro_details_vendor_display_tv);
+        pro_details_vendor_display_tv.setText("Vendor");
 
         ratingBar.setIsIndicator(false);
 
