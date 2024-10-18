@@ -88,93 +88,151 @@
                 app:layout_constraintTop_toBottomOf="@+id/pro_details_rating_bar"
                 tools:text="$ 200.99" />
 
+<!--            <TextView-->
+<!--                android:id="@+id/pro_details_select_size_label"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="16sp"-->
+<!--                android:text="@string/pro_details_select_size_lable_text"-->
+<!--                android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/pro_details_price_tv" />-->
+
+<!--            <HorizontalScrollView-->
+<!--                android:id="@+id/pro_size_radio_scroll"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:scrollbars="none"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/pro_details_select_size_label">-->
+
+<!--                <RadioGroup-->
+<!--                    android:id="@+id/pro_details_sizes_radio_group"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                </RadioGroup>-->
+<!--            </HorizontalScrollView>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/pro_details_select_color_label"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:text="@string/pro_details_select_color_label_text"-->
+<!--                android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/pro_size_radio_scroll" />-->
+
+<!--            <HorizontalScrollView-->
+<!--                android:id="@+id/pro_color_radio_scroll"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:scrollbars="none"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/pro_details_select_color_label">-->
+
+<!--                <RadioGroup-->
+<!--                    android:id="@+id/pro_details_colors_radio_group"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                </RadioGroup>-->
+<!--            </HorizontalScrollView>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/pro_details_specifications_label"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:text="@string/pro_details_specif_label_text"-->
+<!--                android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/pro_color_radio_scroll" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/pro_details_specifics_text"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:textSize="14sp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/pro_details_specifications_label"-->
+<!--                tools:text="TextViewveoihj" />-->
+
             <TextView
-                android:id="@+id/pro_details_select_size_label"
+                android:id="@+id/pro_details_cat_display_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16sp"
-                android:text="@string/pro_details_select_size_lable_text"
-                android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
-                android:textSize="16sp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro_details_price_tv" />
+                app:layout_constraintTop_toBottomOf="@+id/pro_details_price_tv"
+                tools:text="Category" />
 
-            <HorizontalScrollView
-                android:id="@+id/pro_size_radio_scroll"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/pro_details_cat_tv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
+                android:layout_marginEnd="192dp"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/pro_details_cat_display_tv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro_details_select_size_label">
-
-                <RadioGroup
-                    android:id="@+id/pro_details_sizes_radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </RadioGroup>
-            </HorizontalScrollView>
+                app:layout_constraintTop_toTopOf="@+id/pro_details_cat_display_tv"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="catagory" />
 
             <TextView
-                android:id="@+id/pro_details_select_color_label"
+                android:id="@+id/pro_details_vendor_display_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/pro_details_select_color_label_text"
-                android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
-                android:textSize="16sp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro_size_radio_scroll" />
-
-            <HorizontalScrollView
-                android:id="@+id/pro_color_radio_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pro_details_select_color_label">
-
-                <RadioGroup
-                    android:id="@+id/pro_details_colors_radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </RadioGroup>
-            </HorizontalScrollView>
+                app:layout_constraintTop_toBottomOf="@+id/pro_details_cat_tv"
+                tools:text="Vendor" />
 
             <TextView
-                android:id="@+id/pro_details_specifications_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/pro_details_specif_label_text"
-                android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro_color_radio_scroll" />
-
-            <TextView
-                android:id="@+id/pro_details_specifics_text"
+                android:id="@+id/pro_details_vendor_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="14sp"
+                android:layout_marginEnd="204dp"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/pro_details_vendor_display_tv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro_details_specifications_label"
-                tools:text="TextViewveoihj" />
+                app:layout_constraintTop_toTopOf="@+id/pro_details_vendor_display_tv"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="vendor" />
 
             <Button
                 android:id="@+id/pro_details_add_cart_btn"
@@ -192,7 +250,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro_details_specifics_text" />
+                app:layout_constraintTop_toBottomOf="@+id/pro_details_vendor_tv" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

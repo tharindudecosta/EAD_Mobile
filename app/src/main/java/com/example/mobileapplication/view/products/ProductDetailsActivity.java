@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class ProductDetailsActivity extends AppCompatActivity {
 
-    private TextView productTitle, productPrice;
+    private TextView productTitle, productPrice,productCategory,productVendor;
     private RecyclerView imageRecycler;
     private ProductImagesAdapter productImagesAdapter;
     private ArrayList<Integer> imageList;
@@ -58,6 +58,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productPrice = findViewById(R.id.pro_details_price_tv);
         ratingBar = findViewById(R.id.pro_details_rating_bar);
         addToCartBtn = findViewById(R.id.pro_details_add_cart_btn);
+        productCategory = findViewById(R.id.pro_details_cat_tv);
+        productVendor = findViewById(R.id.pro_details_vendor_tv);
+
         ratingBar.setIsIndicator(false);
 
         databaseHelper = new DatabaseHelper(this);
@@ -114,6 +117,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         if (product != null) {
             productTitle.setText(product.getProductName());
             productPrice.setText("$" + String.format("%.2f", product.getUnitPrice()));
+            productCategory.setText(product.getCategory());
 
             productReviewsController.getVendorReviews(product, new ProductReviewsController.ReviewCallback() {
                 @Override
@@ -121,6 +125,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     String customerId = databaseHelper.getCustomerIdFromSession();
                     review.setVendorId(body.getId());
                     review.setCustomerId(customerId);
+                    productVendor.setText(body.getName());
+
                     if (vendorReview != null) {
                         review = vendorReview;
                         ratingBar.setRating(vendorReview.getRating());
